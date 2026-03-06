@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Hojin Han | Portfolio</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+  <style>
+    :root {
+      --bg-main: #000000;
+      --bg-sub: #111111;
+      --text-main: #ffffff;
+      --text-sub: #a1a1a6;
+      --accent: #ffffff;
+      --border: #222222;
+      --font-main: 'Pretendard', -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+    body { margin: 0; font-family: var(--font-main); background-color: var(--bg-main); color: var(--text-main); overflow-x: hidden; letter-spacing: -0.01em; }
+
+    body::before {
+      content: ""; position: fixed; inset: 0;
+      background: radial-gradient(circle at 15% 15%, rgba(40, 40, 40, 0.3) 0%, transparent 60%),
+                  radial-gradient(circle at 85% 85%, rgba(20, 20, 20, 0.2) 0%, transparent 60%);
+      z-index: -1;
+    }
+
+    .container { max-width: 1400px; margin: 0 auto; padding: 60px 20px; }
+
+    header { margin-bottom: 80px; text-align: center; }
+    .tagline { color: var(--text-sub); font-size: 14px; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 600; }
+    h1 { font-size: 42px; font-weight: 800; margin: 15px 0 0; color: var(--accent); }
+
+    .featured-section { margin-bottom: 80px; position: relative; overflow: hidden; padding: 10px; }
+    .featured-track { display: flex; transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1); gap: 20px; }
+    .featured-item { 
+      flex: 0 0 100%; 
+      position: relative; 
+      aspect-ratio: 16 / 9; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      cursor: pointer; 
+      background: #000; 
+      border: 1px solid var(--border);
+    }
+    
+    @media (min-width: 1024px) {
+      .featured-item { flex: 0 0 80%; }
+    }
+
+    .featured-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.6s; }
+    .featured-item:hover img { opacity: 1; transform: scale(1.02); }
+    .featured-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); }
+    .featured-overlay h2 { color: #fff; margin: 0; font-size: 24px; font-weight: 700; }
+
+    .filters { display: flex; gap: 12px; margin-bottom: 50px; justify-content: center; flex-wrap: wrap; overflow-x: auto; padding-bottom: 10px; }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn { background-color: var(--bg-sub); border: 1px solid var(--border); color: var(--text-main); cursor: pointer; font-size: 15px; transition: 0.3s; padding: 10px 22px; border-radius: 30px; white-space: nowrap; }
+    .filter-btn.active { background-color: var(--accent); color: #000; font-weight: 600; border-color: var(--accent); }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
+    .video-card { cursor: pointer; transition: 0.4s; background: var(--bg-sub); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
+    .video-card:hover { transform: translateY(-8px); border-color: #444; }
+    .thumb-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; }
+    .video-card .thumb { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
+    .video-card:hover .thumb { opacity: 1; }
+    .card-info { padding: 20px; }
+    .card-cat { font-size: 11px; color: var(--text-sub); text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+    .card-title { font-weight: 700; font-size: 18px; margin: 0; color: var(--text-main); line-height: 1.4; }
+
+    footer { background-color: var(--bg-sub); padding: 80px 20px; border-top: 1px solid var(--border); text-align: center; margin-top: 100px; }
+    .footer-heading { font-size: 26px; font-weight: 800; margin-bottom: 40px; color: var(--accent); }
+    .contact-container { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; }
+    .contact-box { display: flex; flex-direction: column; gap: 10px; }
+    .contact-label { font-size: 12px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; letter-spacing: 0.15em; }
+    .contact-value { font-size: 19px; color: var(--text-main); text-decoration: none; font-weight: 600; border-bottom: 1px solid transparent; transition: 0.3s; }
+    .contact-value:hover { border-bottom: 1px solid #fff; }
+
+    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(15px); }
+    .modal.open { display: flex; }
+    .modal-content { width: 100%; max-width: 1200px; display: flex; gap: 0; position: relative; flex-wrap: wrap; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid #333; max-height: 90vh; overflow-y: auto; }
+    .player-container { flex: 1; min-width: 60%; aspect-ratio: 16 / 9; background: #000; }
+    .player-container iframe { width: 100%; height: 100%; border: none; }
+    .info-container { flex: 0 0 350px; background: var(--bg-sub); padding: 40px; display: flex; flex-direction: column; gap: 20px; border-left: 1px solid var(--border); }
+    .modal-title { margin: 0; font-size: 26px; font-weight: 800; border-bottom: 2px solid var(--border); padding-bottom: 15px; color: var(--accent); }
+    .info-item { display: flex; flex-direction: column; gap: 4px; }
+    .info-label { font-size: 11px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; }
+    .info-value { font-size: 15px; font-weight: 600; }
+    .info-desc { margin-top: 10px; line-height: 1.7; font-size: 14px; color: #ccc; white-space: pre-line; background: #000; padding: 15px; border-radius: 10px; border: 1px solid var(--border); }
+    .modal-close { position: absolute; top: 20px; right: 20px; color: #fff; background: rgba(0,0,0,0.5); border: 1px solid var(--border); font-size: 20px; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center; }
+
+    @media (max-width: 1024px) {
+      .modal-content { flex-direction: column; }
+      .player-container, .info-container { width: 100%; flex: none; border-left: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="tagline">Creative Video Portfolio</div>
+    <h1>Hojin Han</h1>
+  </header>
+
+  <div class="featured-section">
+    <div class="featured-track" id="featuredTrack"></div>
+  </div>
+
+  <nav class="filters" id="filterBar"></nav>
+  <main class="grid" id="videoGrid"></main>
+</div>
+
+<footer>
+  <div class="footer-heading">Contact</div>
+  <div class="contact-container">
+    <div class="contact-box">
+      <span class="contact-label">Email</span>
+      <a href="mailto:gksghwls7511@naver.com" class="contact-value" id="emailLink">gksghwls7511@naver.com</a>
+    </div>
+    <div class="contact-box">
+      <span class="contact-label">Phone</span>
+      <a href="tel:010-9630-3421" class="contact-value" id="phoneLink">010-9630-3421</a>
+    </div>
+  </div>
+  <p style="margin-top: 50px; font-size: 12px; color: #555;">© 2026 Hojin Han. All rights reserved.</p>
+</footer>
+
+<div class="modal" id="videoModal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="player-container" id="playerWrap"></div>
+    <div class="info-container" id="infoContainer"></div>
+  </div>
+</div>
+
+<script>
+  const CONTACT_DATA = { email: "gksghwls7511@naver.com", phone: "010-9630-3421" };
+
+  const VIDEO_DATA = [
+    { title: "Hermann Ryff Main", category: "업체", youtubeId: "O9sO5O14ldQ", isFeatured: true, client: "HermannRyff", type: "브랜드 홍보", role: "편집", year: "2025", desc: "허먼리프 임플란트 브랜드 홍보 메인 영상입니다." },
+    { title: "치크루팅 브랜드 필름", category: "업체", youtubeId: "cRYHJSqr_o8", isFeatured: true, client: "치크루팅", type: "브랜드 홍보", role: "편집", year: "2025", desc: "치크루팅 홍보를 목적으로 제작된 브랜드 영상입니다." },
+    { title: "모어덴 슈링크 교육", category: "업체", youtubeId: "PLLcU5TKyhk", isFeatured: true, client: "모어덴", type: "홍보/교육", role: "편집", year: "2026", desc: "슈링크 장비 판매 및 교육용 영상입니다." },
+    { title: "모어덴 CO2 교육", category: "업체", youtubeId: "_lE44JabOj8", isFeatured: true, client: "모어덴", type: "교육 영상", role: "촬영, 편집", year: "2026", desc: "CO2 장비 판매 및 교육용 영상입니다." },
+    { title: "Hermann Ryff Interview 01", category: "인터뷰", youtubeId: "SiVtVSILzL0", isFeatured: false, client: "HermannRyff", type: "인터뷰", role: "촬영, 편집", year: "2025", desc: "허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다." },
+    { title: "Hermann Ryff Interview 02", category: "인터뷰", youtubeId: "I2RcrXlZcuU", isFeatured: false, client: "HermannRyff", type: "인터뷰", role: "촬영, 편집", year: "2025", desc: "허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다." },
+    { title: "Hermann Ryff Interview 03", category: "인터뷰", youtubeId: "R8Bux68TlXM", isFeatured: false, client: "HermannRyff", type: "인터뷰", role: "촬영, 편집", year: "2025", desc: "허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다." },
+    { title: "Hermann Ryff Interview 04", category: "인터뷰", youtubeId: "TN8oldMMsPA", isFeatured: false, client: "HermannRyff", type: "인터뷰", role: "촬영, 편집", year: "2025", desc: "허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다." },
+    { title: "Hermann Ryff Interview 05", category: "인터뷰", youtubeId: "v2TFR2DHtKQ", isFeatured: false, client: "HermannRyff", type: "인터뷰", role: "촬영, 편집", year: "2025", desc: "허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다." },
+    { title: "Hermann Ryff Interview 06", category: "인터뷰", youtubeId: "3I0j9fbUhuE", isFeatured: false, client: "HermannRyff", type: "인터뷰", role: "촬영, 편집", year: "2025", desc: "허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다." },
+    { title: "모어덴 & 와이즈에이아이", category: "강의", youtubeId: "SbvWdPP9N6I", isFeatured: false, client: "모어덴 & 와이즈에이아이", type: "강의", role: "촬영, 편집", year: "2025", desc: "와이즈에이아이 업체 강의 촬영 (Q&A 형식)." },
+    { title: "모어덴 슈링크 인터뷰", category: "인터뷰", youtubeId: "H_5DUEh5aKE", isFeatured: false, client: "모어덴", type: "강의/인터뷰", role: "촬영, 편집", year: "2025", desc: "슈링크 장비 판매 및 교육용 인터뷰 영상입니다." },
+    { title: "TEE FIT 기공소", category: "업체", youtubeId: "w4htZQ1lHGA", isFeatured: false, client: "TEE FIT 기공소", type: "홍보", role: "촬영, 편집", year: "2024", desc: "TEE FIT 기공소 차별점 강조 홍보 영상." },
+    { title: "서울나란이치과(수원점)", category: "업체", youtubeId: "LmqRrfBQzao", isFeatured: false, client: "서울나란이치과(수원점)", type: "홍보", role: "촬영, 편집", year: "2025", desc: "병원 내 송출용 홍보 영상입니다." },
+    { title: "강의 편집 외주", category: "강의", youtubeId: "MRkGmSYgw9Q", isFeatured: false, client: "강의 외주", type: "강의", role: "컷 편집, 자막, 효과", year: "2025", desc: "강의 편집 전문 작업물입니다." },
+    { title: "인터뷰 편집 외주", category: "인터뷰", youtubeId: "Dra_T7NbCJQ", isFeatured: false, client: "인터뷰 외주", type: "인터뷰", role: "컷 편집, 자막, BGM", year: "2025", desc: "인터뷰 편집 전문 작업물입니다." },
+    { title: "송년회 영상 외주", category: "기타", youtubeId: "dk7pR7ozvxo", isFeatured: false, client: "송년회 영상 외주", type: "기타", role: "모션 그래픽, 자막", year: "2025", desc: "모션 그래픽 위주 송년회 영상." },
+    { title: "동창회 영상 외주", category: "기타", youtubeId: "uQI5G1DVPmc", isFeatured: false, client: "동창회 영상 외주", type: "기타", role: "편집", year: "2025", desc: "동창회 기록 편집 영상." },
+    { title: "레이 CBCT 라이브쇼", category: "업체", youtubeId: "5dOtB7LoDEE", isFeatured: false, client: "모어덴", type: "홍보, 이벤트", role: "편집", year: "2025", desc: "레이 CBCT 라이브 런칭쇼 이벤트 영상 (디자인 참여X)." },
+    { title: "이어혜다 강의 런칭", category: "숏츠", youtubeId: "7p5c2eSt85s", isFeatured: false, client: "모어덴", type: "숏츠", role: "편집", year: "2025", desc: "디자인 파일 기반 숏츠 편집 (디자인X)." },
+    { title: "피맥당 신메뉴 홍보", category: "숏츠", youtubeId: "MvoQ5Ghltfs", isFeatured: false, client: "숏츠 외주", type: "숏츠", role: "편집", year: "2025", desc: "피맥당 메뉴 홍보 숏츠 외주 작업." },
+    { title: "쇼핑몰 숏츠 01", category: "숏츠", youtubeId: "HPq72BhdLy8", isFeatured: false, client: "숏츠 외주", type: "홍보", role: "편집", year: "2025", desc: "쇼핑몰 홍보용 숏츠 편집 작업물." },
+    { title: "쇼핑몰 숏츠 02", category: "숏츠", youtubeId: "Xli3TiZEWIk", isFeatured: false, client: "숏츠 외주", type: "홍보", role: "편집", year: "2025", desc: "쇼핑몰 홍보용 숏츠 편집 작업물." },
+    { title: "치크루팅 숏츠", category: "숏츠", youtubeId: "5jHhqVQzef0", isFeatured: false, client: "치크루팅", type: "숏츠", role: "편집", year: "2025", desc: "치크루팅 서비스 홍보 숏츠." },
+    { title: "점빵치과 세미나 현장", category: "숏츠", youtubeId: "VoJXkx8Sw3Y", isFeatured: false, client: "모어덴", type: "숏츠", role: "촬영, 편집", year: "2025", desc: "세미나 현장 스케치 촬영 및 편집." },
+    { title: "점빵치과 세미나 홍보", category: "숏츠", youtubeId: "VoJXkx8Sw3Y", isFeatured: false, client: "모어덴", type: "숏츠", role: "편집", year: "2025", desc: "세미나 사전 홍보용 숏츠 편집." },
+    { title: "Dental Suturing", category: "숏츠", youtubeId: "jfrsRwJNnAM", isFeatured: false, client: "덴탈빈", type: "숏츠", role: "촬영, 편집", year: "2024", desc: "Modified Horizontal Mattress 교육 영상." },
+    { title: "Dental Floss Guide", category: "숏츠", youtubeId: "ChaQnICI4AE", isFeatured: false, client: "덴탈빈", type: "숏츠", role: "촬영, 편집", year: "2024", desc: "How to use dental floss 교육 영상." }
+  ];
+
+  const CATEGORIES = ["전체", "업체", "인터뷰", "강의", "기타", "숏츠"];
+  const featuredTrack = document.getElementById('featuredTrack');
+  const videoGrid = document.getElementById('videoGrid');
+  const filterBar = document.getElementById('filterBar');
+  const modal = document.getElementById('videoModal');
+  const playerWrap = document.getElementById('playerWrap');
+  const infoContainer = document.getElementById('infoContainer');
+
+  let currentIndex = 0;
+  let rollingInterval;
+
+  function init() {
+    document.getElementById('emailLink').textContent = CONTACT_DATA.email;
+    document.getElementById('emailLink').href = `mailto:${CONTACT_DATA.email}`;
+    document.getElementById('phoneLink').textContent = CONTACT_DATA.phone;
+    document.getElementById('phoneLink').href = `tel:${CONTACT_DATA.phone}`;
+
+    renderFilters();
+    renderContent('전체');
+    startRolling();
+  }
+
+  function renderFilters() {
+    filterBar.innerHTML = CATEGORIES.map(cat => `<button class="filter-btn ${cat==='전체'?'active':''}" onclick="filterVideos(this, '${cat}')">${cat}</button>`).join('');
+  }
+
+  function renderContent(filter) {
+    const featured = VIDEO_DATA.filter(v => v.isFeatured);
+    featuredTrack.innerHTML = featured.map(v => `
+      <div class="featured-item" onclick="openModal('${v.youtubeId}')">
+        <img src="https://img.youtube.com/vi/${v.youtubeId}/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg'">
+        <div class="featured-overlay"><h2>${v.title}</h2></div>
+      </div>
+    `).join('');
+
+    const filtered = filter === '전체' ? VIDEO_DATA : VIDEO_DATA.filter(v => v.category === filter);
+    videoGrid.innerHTML = filtered.map(v => `
+      <div class="video-card" onclick="openModal('${v.youtubeId}')">
+        <div class="thumb-wrap"><img class="thumb" src="https://img.youtube.com/vi/${v.youtubeId}/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg'"></div>
+        <div class="card-info"><div class="card-cat">${v.category}</div><h3 class="card-title">${v.title}</h3></div>
+      </div>
+    `).join('');
+  }
+
+  function startRolling() {
+    const items = document.querySelectorAll('.featured-item');
+    if (items.length <= 1) return;
+    rollingInterval = setInterval(() => {
+      currentIndex = (currentIndex + 1) % items.length;
+      const isMobile = window.innerWidth < 1024;
+      featuredTrack.style.transform = `translateX(-${currentIndex * (isMobile ? 105 : 82.2)}%)`;
+    }, 5000);
+  }
+
+  function filterVideos(btn, cat) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderContent(cat);
+    currentIndex = 0;
+    featuredTrack.style.transform = `translateX(0)`;
+  }
+
+  function openModal(id) {
+    clearInterval(rollingInterval);
+    const video = VIDEO_DATA.find(v => v.youtubeId === id);
+    const origin = window.location.origin === "null" ? "*" : window.location.origin;
+    playerWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&origin=${encodeURIComponent(origin)}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+    
+    infoContainer.innerHTML = `
+      <div class="modal-title">${video.title}</div>
+      <div class="info-item"><span class="info-label">Client</span><span class="info-value">${video.client}</span></div>
+      <div class="info-item"><span class="info-label">Type</span><span class="info-value">${video.type}</span></div>
+      <div class="info-item"><span class="info-label">Role</span><span class="info-value">${video.role}</span></div>
+      <div class="info-item"><span class="info-label">Year</span><span class="info-value">${video.year}</span></div>
+      <div class="info-desc">${video.desc}</div>
+    `;
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('open');
+    playerWrap.innerHTML = '';
+    document.body.style.overflow = 'auto';
+    startRolling();
+  }
+
+  init();
+</script>
+</body>
+</html>
