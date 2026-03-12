@@ -1,119 +1,680 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
   <title>Hojin Han | Portfolio</title>
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
   <style>
+    /* ════════════════ THEME TOKENS ════════════════ */
     :root {
-      --bg-main: #000000;
-      --bg-sub: #111111;
-      --text-main: #ffffff;
-      --text-sub: #a1a1a6;
-      --accent: #ffffff;
-      --border: #222222;
+      --bg-main: #080808;
+      --bg-sub: #0f0f0f;
+      --bg-card: #141414;
+      --text-main: #f0f0f0;
+      --text-sub: #666;
+      --accent-start: #c8a96e;
+      --accent-end: #e8c99e;
+      --accent: #c8a96e;
+      --border: #1e1e1e;
+      --border-hover: #333;
       --font-main: 'Pretendard', -apple-system, sans-serif;
+      --shadow: 0 20px 60px rgba(0,0,0,0.5);
+      --toggle-bg: #1e1e1e;
+      --toggle-icon: #c8a96e;
     }
 
-    * { box-sizing: border-box; -webkit-font-smoothing: antialiased; }
-    body { margin: 0; font-family: var(--font-main); background-color: var(--bg-main); color: var(--text-main); overflow-x: hidden; letter-spacing: -0.01em; }
+    [data-theme="light"] {
+      --bg-main: #f5f5f0;
+      --bg-sub: #ebebe6;       /* 수정: 키릴 문자 오타 제거 */
+      --bg-card: #ffffff;
+      --text-main: #111111;
+      --text-sub: #888888;
+      --accent-start: #a07840;
+      --accent-end: #c8a96e;
+      --accent: #a07840;
+      --border: #e0e0d8;
+      --border-hover: #ccc;
+      --shadow: 0 20px 60px rgba(0,0,0,0.1);
+      --toggle-bg: #e0e0d8;
+      --toggle-icon: #a07840;
+    }
+
+    /* ════════════════ RESET ════════════════ */
+    *, *::before, *::after { box-sizing: border-box; -webkit-font-smoothing: antialiased; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      overflow-x: hidden;
+      letter-spacing: -0.01em;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    /* iOS Safari 모달 스크롤 잠금용 */
+    body.modal-open {
+      overflow: hidden;
+      position: fixed;
+      width: 100%;
+    }
 
     body::before {
-      content: ""; position: fixed; inset: 0;
-      background: radial-gradient(circle at 15% 15%, rgba(40, 40, 40, 0.3) 0%, transparent 60%),
-                  radial-gradient(circle at 85% 85%, rgba(20, 20, 20, 0.2) 0%, transparent 60%);
-      z-index: -1;
+      content: "";
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 0%, rgba(200,169,110,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 100%, rgba(200,169,110,0.04) 0%, transparent 60%);
+      z-index: -2;
+      pointer-events: none;
+      transition: opacity 0.4s;
     }
 
-    .container { max-width: 1400px; margin: 0 auto; padding: 60px 20px; }
+    [data-theme="light"] body::before { opacity: 0.4; }
 
-    header { margin-bottom: 80px; text-align: center; }
-    .tagline { color: var(--text-sub); font-size: 14px; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 600; }
-    h1 { font-size: 42px; font-weight: 800; margin: 15px 0 0; color: var(--accent); }
+    /* ── 스크롤 진입 애니메이션 ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
 
-    .featured-section { margin-bottom: 80px; position: relative; overflow: hidden; padding: 10px; }
-    .featured-track { display: flex; transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1); gap: 20px; }
-    .featured-item { 
-      flex: 0 0 100%; 
-      position: relative; 
-      aspect-ratio: 16 / 9; 
-      border-radius: 12px; 
-      overflow: hidden; 
-      cursor: pointer; 
-      background: #000; 
+    /* ── 스크롤바 ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 2px; }
+
+    /* ════════════════ LAYOUT ════════════════ */
+    .container { max-width: 1440px; margin: 0 auto; padding: 0 32px 80px; }
+
+    /* ════════════════ THEME TOGGLE ════════════════ */
+    .theme-toggle {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 1000;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--toggle-bg);
+      border: 1px solid var(--border-hover);
+      color: var(--toggle-icon);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: background 0.3s, border-color 0.3s, transform 0.3s;
+      backdrop-filter: blur(8px);
+    }
+    .theme-toggle:hover { transform: scale(1.1) rotate(15deg); border-color: var(--accent); }
+
+    /* ════════════════ HEADER ════════════════ */
+    header {
+      padding: 100px 0 72px;
+      text-align: center;
+      position: relative;
+    }
+
+    .header-line {
+      display: inline-block;
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--accent));
+      margin-bottom: 32px;
+      opacity: 0.6;
+    }
+
+    .tagline {
+      color: var(--accent);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.35em;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--text-main) 0%, var(--accent) 50%, var(--text-main) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 4s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: 0% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .header-sub {
+      color: var(--text-sub);
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      margin-bottom: 40px;
+    }
+
+    /* ── 통계 배지 ── */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    .stat-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 16px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-width: 110px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .stat-badge:hover { border-color: rgba(200,169,110,0.35); transform: translateY(-3px); }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-weight: 600;
+    }
+
+    /* ── 소개 텍스트 ── */
+    .header-desc {
+      max-width: 520px;
+      margin: 32px auto 0;
+      color: var(--text-sub);
+      font-size: 14px;
+      line-height: 1.8;
+      letter-spacing: 0.02em;
+    }
+
+    /* ════════════════ FEATURED ════════════════ */
+    .featured-section {
+      position: relative;
+      margin: 72px 0 80px;
+    }
+
+    .featured-track-wrap {
+      overflow: hidden;
+      border-radius: 20px;
       border: 1px solid var(--border);
     }
-    
-    @media (min-width: 1024px) {
-      .featured-item { flex: 0 0 80%; }
+
+    .featured-track {
+      display: flex;
+      transition: transform 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+      will-change: transform;
     }
 
-    .featured-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.6s; }
-    .featured-item:hover img { opacity: 1; transform: scale(1.02); }
-    .featured-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); }
-    .featured-overlay h2 { color: #fff; margin: 0; font-size: 24px; font-weight: 700; }
+    .featured-item {
+      flex: 0 0 100%;
+      position: relative;
+      aspect-ratio: 16/8;
+      overflow: hidden;
+      cursor: pointer;
+      background: #000;
+      user-select: none; /* 드래그 시 텍스트 선택 방지 */
+    }
 
-    .filters { display: flex; gap: 12px; margin-bottom: 50px; justify-content: center; flex-wrap: wrap; overflow-x: auto; padding-bottom: 10px; }
-    .filters::-webkit-scrollbar { display: none; }
-    .filter-btn { background-color: var(--bg-sub); border: 1px solid var(--border); color: var(--text-main); cursor: pointer; font-size: 15px; transition: 0.3s; padding: 10px 22px; border-radius: 30px; white-space: nowrap; }
-    .filter-btn.active { background-color: var(--accent); color: #000; font-weight: 600; border-color: var(--accent); }
+    @media (min-width: 1024px) { .featured-item { aspect-ratio: 16/7; } }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-    .video-card { cursor: pointer; transition: 0.4s; background: var(--bg-sub); border-radius: 16px; overflow: hidden; border: 1px solid var(--border); }
-    .video-card:hover { transform: translateY(-8px); border-color: #444; }
-    .thumb-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; position: relative; }
-    .video-card .thumb { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.5s; }
-    .video-card:hover .thumb { opacity: 1; }
-    .card-info { padding: 20px; }
-    .card-cat { font-size: 11px; color: var(--text-sub); text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
-    .card-title { font-weight: 700; font-size: 18px; margin: 0; color: var(--text-main); line-height: 1.4; }
+    .featured-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.55;
+      transition: opacity 0.6s, transform 0.6s;
+      transform: scale(1.02);
+      pointer-events: none; /* 드래그 중 이미지 ghost 방지 */
+      draggable: false;
+    }
 
-    footer { background-color: var(--bg-sub); padding: 80px 20px; border-top: 1px solid var(--border); text-align: center; margin-top: 100px; }
-    .footer-heading { font-size: 26px; font-weight: 800; margin-bottom: 40px; color: var(--accent); }
-    .contact-container { display: flex; justify-content: center; gap: 50px; flex-wrap: wrap; }
-    .contact-box { display: flex; flex-direction: column; gap: 10px; }
-    .contact-label { font-size: 12px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; letter-spacing: 0.15em; }
-    .contact-value { font-size: 19px; color: var(--text-main); text-decoration: none; font-weight: 600; border-bottom: 1px solid transparent; transition: 0.3s; }
-    .contact-value:hover { border-bottom: 1px solid #fff; }
+    .featured-item:hover img { opacity: 0.75; transform: scale(1.05); }
 
-    .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: none; align-items: center; justify-content: center; z-index: 2000; padding: 20px; backdrop-filter: blur(15px); }
+    .featured-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 48px;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+      pointer-events: none; /* 오버레이가 클릭 이벤트 방해하지 않도록 */
+    }
+
+    .featured-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(200,169,110,0.4);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 14px;
+      width: fit-content;
+      background: rgba(200,169,110,0.08);
+    }
+
+    .featured-overlay h2 {
+      color: #fff;
+      margin: 0 0 8px;
+      font-size: clamp(20px, 3vw, 32px);
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .featured-meta { font-size: 13px; color: rgba(255,255,255,0.5); }
+
+    .featured-play-hint {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(200,169,110,0.15);
+      border: 2px solid rgba(200,169,110,0.5);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    .featured-play-hint svg { width: 24px; height: 24px; fill: var(--accent); margin-left: 4px; }
+    .featured-item:hover .featured-play-hint { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+
+    /* 슬라이더 버튼 */
+    .slider-btn {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      z-index: 10;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+      transition: background 0.3s, border-color 0.3s;
+    }
+
+    .slider-btn:hover { background: rgba(200,169,110,0.3); border-color: var(--accent); }
+    .slider-btn.prev { left: 16px; }
+    .slider-btn.next { right: 16px; }
+
+    /* 도트 */
+    .slider-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 3px;
+      background: var(--border-hover);
+      cursor: pointer;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .dot.active { width: 24px; background: var(--accent); }
+
+    /* ════════════════ SECTION HEADER ════════════════ */
+    .section-header {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 13px; font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      white-space: nowrap;
+    }
+
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* ════════════════ FILTERS ════════════════ */
+    .filters { display: flex; gap: 8px; margin-bottom: 48px; flex-wrap: wrap; }
+
+    .filter-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-sub);
+      cursor: pointer;
+      font-size: 13px; font-weight: 600;
+      font-family: var(--font-main);
+      transition: all 0.25s;
+      padding: 8px 20px;
+      border-radius: 6px;
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+
+    .filter-btn:hover { border-color: var(--border-hover); color: var(--text-main); }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--accent-start), var(--accent-end));
+      color: #fff;
+      font-weight: 700;
+      border-color: transparent;
+      box-shadow: 0 0 20px rgba(200,169,110,0.25);
+    }
+
+    /* ════════════════ MASONRY GRID ════════════════ */
+    .masonry-grid {
+      columns: 4;
+      column-gap: 16px;
+    }
+
+    @media (max-width: 1200px) { .masonry-grid { columns: 3; } }
+    @media (max-width: 768px)  { .masonry-grid { columns: 2; } }
+    @media (max-width: 480px)  { .masonry-grid { columns: 1; } }
+
+    .video-card {
+      break-inside: avoid;
+      cursor: pointer;
+      background: var(--bg-card);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      display: inline-block;
+      width: 100%;
+      transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .video-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(200,169,110,0.25);
+      box-shadow: var(--shadow), 0 0 0 1px rgba(200,169,110,0.1);
+    }
+
+    .thumb-wrap {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      background: #0a0a0a;
+    }
+
+    /* 비율은 data-ratio 어트리뷰트로 JS에서 지정 — 필터 전환 시 일관성 유지 */
+    .thumb-wrap[data-ratio="wide"]   { aspect-ratio: 16/8; }
+    .thumb-wrap[data-ratio="normal"] { aspect-ratio: 16/9; }
+    .thumb-wrap[data-ratio="tall"]   { aspect-ratio: 16/10; }
+
+    .video-card .thumb {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.75;
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .video-card:hover .thumb { opacity: 1; transform: scale(1.04); }
+
+    .card-play {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.3s;
+    }
+
+    .card-play-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: rgba(200,169,110,0.2);
+      border: 1.5px solid rgba(200,169,110,0.6);
+      display: flex; align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .card-play-icon svg { width: 16px; height: 16px; fill: var(--accent); margin-left: 3px; }
+    .video-card:hover .card-play { opacity: 1; }
+
+    .card-info { padding: 14px 16px 16px; }
+
+    .card-top {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .card-cat {
+      font-size: 10px;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      background: rgba(200,169,110,0.1);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .card-year { font-size: 11px; color: var(--text-sub); }
+
+    .card-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    /* ════════════════ FOOTER ════════════════ */
+    footer {
+      background: var(--bg-sub);
+      padding: 80px 32px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      margin-top: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 300px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+    }
+
+    .footer-heading {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-sub);
+      margin-bottom: 48px;
+    }
+
+    .contact-container {
+      display: flex; justify-content: center;
+      gap: 24px; flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+
+    .contact-box {
+      display: flex; flex-direction: column;
+      align-items: flex-start; gap: 8px;
+      padding: 24px 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      min-width: 220px;
+      transition: border-color 0.3s;
+    }
+
+    .contact-box:hover { border-color: rgba(200,169,110,0.3); }
+
+    .contact-label {
+      font-size: 10px; color: var(--accent);
+      text-transform: uppercase; font-weight: 700; letter-spacing: 0.2em;
+    }
+
+    .contact-value {
+      font-size: 15px; color: var(--text-main);
+      text-decoration: none; font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .contact-value:hover { color: var(--accent); }
+    .footer-copy { font-size: 11px; color: var(--text-sub); opacity: 0.4; letter-spacing: 0.1em; }
+
+    /* ════════════════ MODAL ════════════════ */
+    .modal {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.92);
+      display: none; align-items: center; justify-content: center;
+      z-index: 2000; padding: 20px;
+      backdrop-filter: blur(20px);
+    }
+
     .modal.open { display: flex; }
-    .modal-content { width: 100%; max-width: 1200px; display: flex; gap: 0; position: relative; flex-wrap: wrap; background: #000; border-radius: 20px; overflow: hidden; border: 1px solid #333; max-height: 90vh; overflow-y: auto; }
-    .player-container { flex: 1; min-width: 60%; aspect-ratio: 16 / 9; background: #000; }
-    .player-container iframe { width: 100%; height: 100%; border: none; }
-    .info-container { flex: 0 0 350px; background: var(--bg-sub); padding: 40px; display: flex; flex-direction: column; gap: 20px; border-left: 1px solid var(--border); }
-    .modal-title { margin: 0; font-size: 26px; font-weight: 800; border-bottom: 2px solid var(--border); padding-bottom: 15px; color: var(--accent); }
-    .info-item { display: flex; flex-direction: column; gap: 4px; }
-    .info-label { font-size: 11px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; }
-    .info-value { font-size: 15px; font-weight: 600; }
-    .info-desc { margin-top: 10px; line-height: 1.7; font-size: 14px; color: #ccc; white-space: pre-line; background: #000; padding: 15px; border-radius: 10px; border: 1px solid var(--border); }
-    .modal-close { position: absolute; top: 20px; right: 20px; color: #fff; background: rgba(0,0,0,0.5); border: 1px solid var(--border); font-size: 20px; cursor: pointer; width: 36px; height: 36px; border-radius: 50%; z-index: 10; display: flex; align-items: center; justify-content: center; }
 
+    .modal-content {
+      width: 100%; max-width: 1200px;
+      display: flex; position: relative;
+      background: var(--bg-sub);
+      border-radius: 20px; overflow: hidden;
+      border: 1px solid var(--border);
+      max-height: 90vh; overflow-y: auto;
+    }
+
+    .player-container {
+      flex: 1; min-width: 0;
+      aspect-ratio: 16/9;
+      background: #000;
+      align-self: flex-start;
+    }
+
+    .player-container iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    .info-container {
+      flex: 0 0 320px;
+      background: var(--bg-card);
+      padding: 36px;
+      display: flex; flex-direction: column; gap: 0;
+      border-left: 1px solid var(--border);
+      overflow-y: auto;
+    }
+
+    .modal-title { font-size: 22px; font-weight: 800; color: var(--text-main); margin-bottom: 8px; line-height: 1.3; }
+
+    .modal-title-underline {
+      height: 2px; width: 40px;
+      background: linear-gradient(to right, var(--accent), transparent);
+      margin-bottom: 28px;
+    }
+
+    .info-item { display: flex; flex-direction: column; gap: 4px; margin-bottom: 18px; }
+    .info-label { font-size: 10px; color: var(--text-sub); text-transform: uppercase; font-weight: 700; letter-spacing: 0.15em; }
+    .info-value { font-size: 14px; font-weight: 600; color: var(--text-main); }
+
+    .info-divider { height: 1px; background: var(--border); margin: 8px 0 24px; }
+
+    .info-desc {
+      line-height: 1.8; font-size: 13px; color: var(--text-sub);
+      white-space: pre-line;
+      background: rgba(0,0,0,0.2);
+      padding: 16px; border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+
+    .modal-close {
+      position: absolute; top: 16px; right: 16px;
+      color: #888; background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border);
+      font-size: 14px; cursor: pointer;
+      width: 32px; height: 32px;
+      border-radius: 50%; z-index: 10;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .modal-close:hover { color: #fff; border-color: #555; }
+
+    /* ════════════════ RESPONSIVE ════════════════ */
     @media (max-width: 1024px) {
       .modal-content { flex-direction: column; }
-      .player-container, .info-container { width: 100%; flex: none; border-left: none; }
+      .player-container { width: 100%; flex: none; }
+      .info-container { width: 100%; flex: none; border-left: none; border-top: 1px solid var(--border); }
+    }
+
+    @media (max-width: 640px) {
+      .container { padding: 0 16px 60px; }
+      header { padding: 60px 0 50px; }
+      .featured-overlay { padding: 24px; }
+      footer { padding: 60px 16px; }
+      .contact-box { min-width: 100%; }
+      .theme-toggle { top: 16px; right: 16px; }
     }
   </style>
 </head>
 <body>
 
+<!-- 테마 토글 -->
+<button class="theme-toggle" id="themeToggle" title="테마 변경">🌙</button>
+
 <div class="container">
-  <header>
+
+  <!-- ── HEADER ── -->
+  <header class="fade-up">
+    <div class="header-line"></div>
     <div class="tagline">Creative Video Portfolio</div>
     <h1>Hojin Han</h1>
+    <div class="header-sub">Videographer &amp; Editor</div>
+    <p class="header-desc">
+      브랜드 홍보부터 교육 콘텐츠, 숏폼까지 —<br>
+      영상으로 메시지를 전달하는 크리에이터입니다.
+    </p>
+    <div class="stats-row" id="statsRow"></div>
   </header>
 
-  <div class="featured-section">
-    <div class="featured-track" id="featuredTrack"></div>
+  <!-- ── FEATURED ── -->
+  <div class="featured-section fade-up" id="featuredSection">
+    <div class="featured-track-wrap" id="featuredWrap">
+      <div class="featured-track" id="featuredTrack"></div>
+    </div>
+    <button class="slider-btn prev" id="btnPrev">&#8592;</button>
+    <button class="slider-btn next" id="btnNext">&#8594;</button>
+    <div class="slider-dots" id="sliderDots"></div>
   </div>
 
-  <nav class="filters" id="filterBar"></nav>
-  <main class="grid" id="videoGrid"></main>
+  <!-- ── WORKS ── -->
+  <div class="section-header fade-up">
+    <span class="section-title">Works</span>
+    <div class="section-line"></div>
+  </div>
+
+  <nav class="filters fade-up" id="filterBar"></nav>
+  <main class="masonry-grid" id="videoGrid"></main>
+
 </div>
 
+<!-- ── FOOTER ── -->
 <footer>
-  <div class="footer-heading">Contact</div>
+  <div class="footer-heading">Get In Touch</div>
   <div class="contact-container">
     <div class="contact-box">
       <span class="contact-label">Email</span>
@@ -124,18 +685,22 @@
       <a href="tel:010-9630-3421" class="contact-value" id="phoneLink">010-9630-3421</a>
     </div>
   </div>
-  <p style="margin-top: 50px; font-size: 12px; color: #555;">© 2026 Hojin Han. All rights reserved.</p>
+  <p class="footer-copy">© 2026 Hojin Han. All rights reserved.</p>
 </footer>
 
+<!-- ── MODAL ── -->
 <div class="modal" id="videoModal">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeModal()">✕</button>
+  <div class="modal-content" id="modalContent">
+    <button class="modal-close" id="modalClose">✕</button>
     <div class="player-container" id="playerWrap"></div>
     <div class="info-container" id="infoContainer"></div>
   </div>
 </div>
 
 <script>
+  /* ══════════════════════════════════
+     DATA
+  ══════════════════════════════════ */
   const CONTACT_DATA = { email: "gksghwls7511@naver.com", phone: "010-9630-3421" };
 
   const VIDEO_DATA = [
@@ -152,12 +717,12 @@
     { title: "Hermann Ryff Interview 06", category: "인터뷰", youtubeId: "3I0j9fbUhuE", isFeatured: false, client: "HermannRyff", type: "인터뷰", role: "촬영, 편집", year: "2025", desc: "허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다." },
     { title: "모어덴 & 와이즈에이아이", category: "강의", youtubeId: "SbvWdPP9N6I", isFeatured: false, client: "모어덴 & 와이즈에이아이", type: "강의", role: "촬영, 편집", year: "2025", desc: "와이즈에이아이 업체 강의 촬영 (Q&A 형식)." },
     { title: "모어덴 슈링크 인터뷰", category: "인터뷰", youtubeId: "H_5DUEh5aKE", isFeatured: false, client: "모어덴", type: "강의/인터뷰", role: "촬영, 편집", year: "2025", desc: "슈링크 장비 판매 및 교육용 인터뷰 영상입니다." },
-    { title: "TEE FIT 기공소", category: "업체", youtubeId: "w4htZQ1lHGA", isFeatured: false, client: "TEE FIT 기공소", type: "홍보", role: "촬영, 편집", year: "2024", desc: "TEE FIT 기공소 차별점 강조 홍보 영상.*클라이언트의 요청에 맞춰 편집하였습니다." },
-    { title: "서울나란이치과(수원점)", category: "업체", youtubeId: "LmqRrfBQzao", isFeatured: false, client: "서울나란이치과(수원점)", type: "홍보", role: "촬영, 편집", year: "2025", desc: "병원 내 송출용 홍보 영상입니다.*클라이언트의 요청에 맞춰 편집하였습니다." },
-    { title: "강의 편집 외주", category: "강의", youtubeId: "MRkGmSYgw9Q", isFeatured: false, client: "강의 외주", type: "강의", role: "컷 편집, 자막, 효과", year: "2025", desc: "강의 편집 전문 작업물입니다.*클라이언트의 요청에 맞춰 편집하였습니다." },
-    { title: "인터뷰 편집 외주", category: "인터뷰", youtubeId: "Dra_T7NbCJQ", isFeatured: false, client: "인터뷰 외주", type: "인터뷰", role: "컷 편집, 자막, BGM", year: "2025", desc: "인터뷰 편집 전문 작업물입니다.*클라이언트의 요청에 맞춰 편집하였습니다." },
-    { title: "송년회 영상 외주", category: "기타", youtubeId: "dk7pR7ozvxo", isFeatured: false, client: "송년회 영상 외주", type: "기타", role: "모션 그래픽, 자막", year: "2025", desc: "모션 그래픽 위주 송년회 영상. *클라이언트의 요청에 맞춰 편집하였습니다." },
-    { title: "동창회 영상 외주", category: "기타", youtubeId: "uQI5G1DVPmc", isFeatured: false, client: "동창회 영상 외주", type: "기타", role: "편집", year: "2025", desc: "동창회 기록 편집 영상. *클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "TEE FIT 기공소", category: "업체", youtubeId: "w4htZQ1lHGA", isFeatured: false, client: "TEE FIT 기공소", type: "홍보", role: "촬영, 편집", year: "2024", desc: "TEE FIT 기공소 차별점 강조 홍보 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "서울나란이치과(수원점)", category: "업체", youtubeId: "LmqRrfBQzao", isFeatured: false, client: "서울나란이치과(수원점)", type: "홍보", role: "촬영, 편집", year: "2025", desc: "병원 내 송출용 홍보 영상입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "강의 편집 외주", category: "강의", youtubeId: "MRkGmSYgw9Q", isFeatured: false, client: "강의 외주", type: "강의", role: "컷 편집, 자막, 효과", year: "2025", desc: "강의 편집 전문 작업물입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "인터뷰 편집 외주", category: "인터뷰", youtubeId: "Dra_T7NbCJQ", isFeatured: false, client: "인터뷰 외주", type: "인터뷰", role: "컷 편집, 자막, BGM", year: "2025", desc: "인터뷰 편집 전문 작업물입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "송년회 영상 외주", category: "기타", youtubeId: "dk7pR7ozvxo", isFeatured: false, client: "송년회 영상 외주", type: "기타", role: "모션 그래픽, 자막", year: "2025", desc: "모션 그래픽 위주 송년회 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "동창회 영상 외주", category: "기타", youtubeId: "uQI5G1DVPmc", isFeatured: false, client: "동창회 영상 외주", type: "기타", role: "편집", year: "2025", desc: "동창회 기록 편집 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
     { title: "레이 CBCT 라이브쇼", category: "업체", youtubeId: "5dOtB7LoDEE", isFeatured: false, client: "모어덴", type: "홍보, 이벤트", role: "편집", year: "2025", desc: "레이 CBCT 라이브 런칭쇼 이벤트 영상 (디자인 참여X)." },
     { title: "이어혜다 강의 런칭", category: "숏츠", youtubeId: "7p5c2eSt85s", isFeatured: false, client: "모어덴", type: "숏츠", role: "편집", year: "2025", desc: "디자인 파일 기반 숏츠 편집 (디자인X)." },
     { title: "치크루팅 강의_Part 1", category: "강의", youtubeId: "C7hcdhxmyRA", isFeatured: false, client: "치크루팅", type: "강의", role: "편집", year: "2025", desc: "치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X" },
@@ -170,9 +735,9 @@
     { title: "치크루팅 강의_Part 8", category: "강의", youtubeId: "I2CIB7ewtgI", isFeatured: false, client: "치크루팅", type: "강의", role: "편집", year: "2026", desc: "치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X" },
     { title: "치크루팅 강의_Part 9", category: "강의", youtubeId: "vSwJrXH2Cl4", isFeatured: false, client: "치크루팅", type: "강의", role: "편집", year: "2026", desc: "치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X" },
     { title: "치크루팅 강의_Part 10", category: "강의", youtubeId: "uC6af89vfUQ", isFeatured: false, client: "치크루팅", type: "강의", role: "편집", year: "2026", desc: "치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X" },
-    { title: "피맥당 신메뉴 홍보", category: "숏츠", youtubeId: "MvoQ5Ghltfs", isFeatured: false, client: "숏츠 외주", type: "숏츠", role: "편집", year: "2025", desc: "피맥당 메뉴 홍보 숏츠 외주 작업.*클라이언트의 요청에 맞춰 편집하였습니다." },
-    { title: "쇼핑몰 숏츠 01", category: "숏츠", youtubeId: "HPq72BhdLy8", isFeatured: false, client: "숏츠 외주", type: "홍보", role: "편집", year: "2025", desc: "쇼핑몰 홍보용 숏츠 편집 작업물.*클라이언트의 요청에 맞춰 편집하였습니다." },
-    { title: "쇼핑몰 숏츠 02", category: "숏츠", youtubeId: "Xli3TiZEWIk", isFeatured: false, client: "숏츠 외주", type: "홍보", role: "편집", year: "2025", desc: "쇼핑몰 홍보용 숏츠 편집 작업물.*클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "피맥당 신메뉴 홍보", category: "숏츠", youtubeId: "MvoQ5Ghltfs", isFeatured: false, client: "숏츠 외주", type: "숏츠", role: "편집", year: "2025", desc: "피맥당 메뉴 홍보 숏츠 외주 작업.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "쇼핑몰 숏츠 01", category: "숏츠", youtubeId: "HPq72BhdLy8", isFeatured: false, client: "숏츠 외주", type: "홍보", role: "편집", year: "2025", desc: "쇼핑몰 홍보용 숏츠 편집 작업물.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
+    { title: "쇼핑몰 숏츠 02", category: "숏츠", youtubeId: "Xli3TiZEWIk", isFeatured: false, client: "숏츠 외주", type: "홍보", role: "편집", year: "2025", desc: "쇼핑몰 홍보용 숏츠 편집 작업물.\n*클라이언트의 요청에 맞춰 편집하였습니다." },
     { title: "치크루팅 숏츠", category: "숏츠", youtubeId: "5jHhqVQzef0", isFeatured: false, client: "치크루팅", type: "숏츠", role: "편집", year: "2025", desc: "치크루팅 서비스 홍보 숏츠." },
     { title: "점빵치과 세미나 현장", category: "숏츠", youtubeId: "VoJXkx8Sw3Y", isFeatured: false, client: "모어덴", type: "숏츠", role: "촬영, 편집", year: "2025", desc: "세미나 현장 스케치 촬영 및 편집." },
     { title: "점빵치과 세미나 홍보", category: "숏츠", youtubeId: "C2bq-XT6xKI", isFeatured: false, client: "모어덴", type: "숏츠", role: "편집", year: "2025", desc: "세미나 사전 홍보용 숏츠 편집." },
@@ -181,91 +746,379 @@
     { title: "공모전", category: "기타", youtubeId: "KDhyH9Hbmpg", isFeatured: false, client: "백두대간 산림생태탐방", type: "공모전", role: "촬영, 편집", year: "2022", desc: "2022 청소년 백두대간 산림생태탐방 공모전에서 산림청장상을 받았습니다. 총 3인이 촬영, 편집에 참여하였습니다." }
   ];
 
-  const CATEGORIES = ["전체", "업체", "인터뷰", "강의", "기타", "숏츠"];
+  const CATEGORIES  = ["전체", "업체", "인터뷰", "강의", "기타", "숏츠"];
+  // 카드 비율 패턴: 필터 전환과 무관하게 인덱스 기준으로 고정
+  const RATIO_CYCLE = ["normal", "tall", "wide", "normal", "normal", "tall", "wide", "normal", "normal", "normal"];
+
+  /* ── DOM refs ── */
   const featuredTrack = document.getElementById('featuredTrack');
-  const videoGrid = document.getElementById('videoGrid');
-  const filterBar = document.getElementById('filterBar');
-  const modal = document.getElementById('videoModal');
-  const playerWrap = document.getElementById('playerWrap');
+  const featuredWrap  = document.getElementById('featuredWrap');
+  const videoGrid     = document.getElementById('videoGrid');
+  const filterBar     = document.getElementById('filterBar');
+  const modal         = document.getElementById('videoModal');
+  const modalContent  = document.getElementById('modalContent');
+  const playerWrap    = document.getElementById('playerWrap');
   const infoContainer = document.getElementById('infoContainer');
+  const sliderDots    = document.getElementById('sliderDots');
+  const themeToggle   = document.getElementById('themeToggle');
+  const modalClose    = document.getElementById('modalClose');
 
-  let currentIndex = 0;
-  let rollingInterval;
+  let currentIndex    = 0;
+  let rollingInterval = null;
+  let scrollY         = 0; // iOS 스크롤 위치 보존용
+  const FEATURED      = VIDEO_DATA.filter(v => v.isFeatured);
 
-  function init() {
-    document.getElementById('emailLink').textContent = CONTACT_DATA.email;
-    document.getElementById('emailLink').href = `mailto:${CONTACT_DATA.email}`;
-    document.getElementById('phoneLink').textContent = CONTACT_DATA.phone;
-    document.getElementById('phoneLink').href = `tel:${CONTACT_DATA.phone}`;
+  /* ══════════════════════════════════
+     THEME TOGGLE
+  ══════════════════════════════════ */
+  (function initTheme() {
+    const saved = localStorage.getItem('hojin-theme') || 'dark';
+    applyTheme(saved);
+  })();
 
-    renderFilters();
-    renderContent('전체');
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    themeToggle.textContent = theme === 'dark' ? '🌙' : '☀️';
+    localStorage.setItem('hojin-theme', theme);
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    applyTheme(current === 'dark' ? 'light' : 'dark');
+  });
+
+  /* ══════════════════════════════════
+     STATS BADGES
+  ══════════════════════════════════ */
+  function renderStats() {
+    const totalWorks    = VIDEO_DATA.length;
+    const uniqueClients = new Set(VIDEO_DATA.map(v => v.client)).size;
+    const years         = [...new Set(VIDEO_DATA.map(v => v.year))].sort();
+    const experience    = `${years[0]}–`;
+
+    const data = [
+      { number: totalWorks,    label: 'Works' },
+      { number: uniqueClients, label: 'Clients' },
+      { number: experience,    label: 'Since' },
+    ];
+
+    const statsRow = document.getElementById('statsRow');
+    statsRow.innerHTML = data.map(d => `
+      <div class="stat-badge">
+        <span class="stat-number">${d.number}</span>
+        <span class="stat-label">${d.label}</span>
+      </div>
+    `).join('');
+  }
+
+  /* ══════════════════════════════════
+     FEATURED SLIDER
+  ══════════════════════════════════ */
+  function renderFeatured() {
+    featuredTrack.innerHTML = FEATURED.map((v, i) => `
+      <div class="featured-item" data-id="${v.youtubeId}">
+        <img src="https://img.youtube.com/vi/${v.youtubeId}/maxresdefault.jpg"
+             onerror="this.src='https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg'"
+             alt="${v.title}" draggable="false">
+        <div class="featured-overlay">
+          <div class="featured-badge">${v.type}</div>
+          <h2>${v.title}</h2>
+          <div class="featured-meta">${v.client} · ${v.year}</div>
+        </div>
+        <div class="featured-play-hint">
+          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+      </div>
+    `).join('');
+
+    initSwipe(featuredWrap);
+  }
+
+  function renderDots() {
+    sliderDots.innerHTML = FEATURED.map((_, i) =>
+      `<div class="dot ${i === 0 ? 'active' : ''}" data-index="${i}"></div>`
+    ).join('');
+
+    sliderDots.addEventListener('click', e => {
+      const dot = e.target.closest('.dot');
+      if (dot) goToSlide(parseInt(dot.dataset.index, 10));
+    });
+  }
+
+  function updateDots() {
+    document.querySelectorAll('.dot').forEach((d, i) =>
+      d.classList.toggle('active', i === currentIndex)
+    );
+  }
+
+  function goToSlide(index) {
+    currentIndex = index;
+    featuredTrack.style.transform = `translateX(-${currentIndex * 100}%)`;
+    updateDots();
+  }
+
+  function slideMove(dir) {
+    clearInterval(rollingInterval);
+    currentIndex = (currentIndex + dir + FEATURED.length) % FEATURED.length;
+    goToSlide(currentIndex);
     startRolling();
   }
 
-  function renderFilters() {
-    filterBar.innerHTML = CATEGORIES.map(cat => `<button class="filter-btn ${cat==='전체'?'active':''}" onclick="filterVideos(this, '${cat}')">${cat}</button>`).join('');
-  }
-
-  function renderContent(filter) {
-    const featured = VIDEO_DATA.filter(v => v.isFeatured);
-    featuredTrack.innerHTML = featured.map(v => `
-      <div class="featured-item" onclick="openModal('${v.youtubeId}')">
-        <img src="https://img.youtube.com/vi/${v.youtubeId}/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg'">
-        <div class="featured-overlay"><h2>${v.title}</h2></div>
-      </div>
-    `).join('');
-
-    const filtered = filter === '전체' ? VIDEO_DATA : VIDEO_DATA.filter(v => v.category === filter);
-    videoGrid.innerHTML = filtered.map(v => `
-      <div class="video-card" onclick="openModal('${v.youtubeId}')">
-        <div class="thumb-wrap"><img class="thumb" src="https://img.youtube.com/vi/${v.youtubeId}/maxresdefault.jpg" onerror="this.src='https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg'"></div>
-        <div class="card-info"><div class="card-cat">${v.category}</div><h3 class="card-title">${v.title}</h3></div>
-      </div>
-    `).join('');
-  }
-
   function startRolling() {
-    const items = document.querySelectorAll('.featured-item');
-    if (items.length <= 1) return;
+    if (FEATURED.length <= 1) return;
+    clearInterval(rollingInterval);
     rollingInterval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % items.length;
-      const isMobile = window.innerWidth < 1024;
-      featuredTrack.style.transform = `translateX(-${currentIndex * (isMobile ? 105 : 82.2)}%)`;
+      currentIndex = (currentIndex + 1) % FEATURED.length;
+      goToSlide(currentIndex);
     }, 5000);
   }
 
-  function filterVideos(btn, cat) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    renderContent(cat);
-    currentIndex = 0;
-    featuredTrack.style.transform = `translateX(0)`;
+  /* 슬라이더 버튼 */
+  document.getElementById('btnPrev').addEventListener('click', () => slideMove(-1));
+  document.getElementById('btnNext').addEventListener('click', () => slideMove(1));
+
+  /* hover 시 자동 롤링 일시정지 */
+  const featuredSection = document.getElementById('featuredSection');
+  featuredSection.addEventListener('mouseenter', () => clearInterval(rollingInterval));
+  featuredSection.addEventListener('mouseleave', () => startRolling());
+
+  /* ══════════════════════════════════
+     TOUCH / MOUSE SWIPE
+     - 드래그 거리 > 8px 이면 슬라이드, 클릭 차단
+     - 드래그 거리 <= 8px 이면 클릭(모달 오픈)
+  ══════════════════════════════════ */
+  function initSwipe(el) {
+    let startX    = 0;
+    let startY    = 0;
+    let dragged   = false;
+    let THRESHOLD = 8; // px
+
+    /* ── Touch ── */
+    el.addEventListener('touchstart', e => {
+      startX  = e.touches[0].clientX;
+      startY  = e.touches[0].clientY;
+      dragged = false;
+    }, { passive: true });
+
+    el.addEventListener('touchend', e => {
+      const dx = startX - e.changedTouches[0].clientX;
+      const dy = Math.abs(e.changedTouches[0].clientY - startY);
+      if (Math.abs(dx) > 40 && Math.abs(dx) > dy) {
+        slideMove(dx > 0 ? 1 : -1);
+        dragged = true;
+      }
+    }, { passive: true });
+
+    /* ── Mouse ── */
+    el.addEventListener('mousedown', e => {
+      startX  = e.clientX;
+      dragged = false;
+    });
+
+    el.addEventListener('mousemove', e => {
+      if (e.buttons !== 1) return;
+      if (Math.abs(e.clientX - startX) > THRESHOLD) dragged = true;
+    });
+
+    el.addEventListener('mouseup', e => {
+      const dx = startX - e.clientX;
+      if (Math.abs(dx) > 40) {
+        slideMove(dx > 0 ? 1 : -1);
+        dragged = true;
+      }
+    });
+
+    el.addEventListener('mouseleave', () => { dragged = false; });
+
+    /* 클릭: 드래그 여부 체크 후 모달 오픈 */
+    el.addEventListener('click', e => {
+      if (dragged) { dragged = false; return; }
+      const item = e.target.closest('.featured-item');
+      if (item) openModal(item.dataset.id);
+    });
   }
 
+  /* ══════════════════════════════════
+     FILTERS
+  ══════════════════════════════════ */
+  function renderFilters() {
+    filterBar.innerHTML = CATEGORIES.map(cat =>
+      `<button class="filter-btn ${cat === '전체' ? 'active' : ''}" data-cat="${cat}">${cat}</button>`
+    ).join('');
+
+    filterBar.addEventListener('click', e => {
+      const btn = e.target.closest('.filter-btn');
+      if (!btn) return;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGrid(btn.dataset.cat);
+    });
+  }
+
+  /* ══════════════════════════════════
+     MASONRY GRID
+     비율은 RATIO_CYCLE(전역 패턴)로 고정
+     → 필터 전환 시에도 카드마다 일관된 비율 유지
+  ══════════════════════════════════ */
+  function renderGrid(filter) {
+    const list = filter === '전체' ? VIDEO_DATA : VIDEO_DATA.filter(v => v.category === filter);
+
+    videoGrid.innerHTML = list.map((v, i) => {
+      const ratio = RATIO_CYCLE[i % RATIO_CYCLE.length];
+      return `
+        <div class="video-card fade-up" data-id="${v.youtubeId}">
+          <div class="thumb-wrap" data-ratio="${ratio}">
+            <img class="thumb"
+                 src="https://img.youtube.com/vi/${v.youtubeId}/maxresdefault.jpg"
+                 onerror="this.src='https://img.youtube.com/vi/${v.youtubeId}/hqdefault.jpg'"
+                 alt="${v.title}">
+            <div class="card-play">
+              <div class="card-play-icon">
+                <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+            </div>
+          </div>
+          <div class="card-info">
+            <div class="card-top">
+              <span class="card-cat">${v.category}</span>
+              <span class="card-year">${v.year}</span>
+            </div>
+            <h3 class="card-title">${v.title}</h3>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    /* 카드 클릭 이벤트 — 이벤트 위임 */
+    videoGrid.addEventListener('click', handleCardClick, { once: true });
+
+    /* 카드 순차 fade-in — rAF로 DOM 페인트 후 처리 */
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        document.querySelectorAll('#videoGrid .video-card.fade-up').forEach((el, i) => {
+          setTimeout(() => el.classList.add('visible'), i * 35);
+        });
+      });
+    });
+  }
+
+  function handleCardClick(e) {
+    const card = e.target.closest('.video-card');
+    if (card) openModal(card.dataset.id);
+    /* 다음 클릭을 위해 리스너 재등록 */
+    videoGrid.addEventListener('click', handleCardClick, { once: true });
+  }
+
+  /* ══════════════════════════════════
+     MODAL
+  ══════════════════════════════════ */
   function openModal(id) {
     clearInterval(rollingInterval);
     const video = VIDEO_DATA.find(v => v.youtubeId === id);
-    const origin = window.location.origin === "null" ? "*" : window.location.origin;
-    playerWrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&origin=${encodeURIComponent(origin)}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
-    
+    if (!video) return;
+
+    /* YouTube embed — autoplay, origin 안정적 처리 */
+    const origin = (location.origin && location.origin !== 'null')
+      ? encodeURIComponent(location.origin)
+      : '';
+    const originParam = origin ? `&origin=${origin}` : '';
+
+    playerWrap.innerHTML = `
+      <iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0${originParam}"
+              allow="autoplay; fullscreen" allowfullscreen
+              title="${video.title}"></iframe>`;
+
     infoContainer.innerHTML = `
       <div class="modal-title">${video.title}</div>
+      <div class="modal-title-underline"></div>
       <div class="info-item"><span class="info-label">Client</span><span class="info-value">${video.client}</span></div>
       <div class="info-item"><span class="info-label">Type</span><span class="info-value">${video.type}</span></div>
       <div class="info-item"><span class="info-label">Role</span><span class="info-value">${video.role}</span></div>
       <div class="info-item"><span class="info-label">Year</span><span class="info-value">${video.year}</span></div>
+      <div class="info-divider"></div>
       <div class="info-desc">${video.desc}</div>
     `;
+
     modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+
+    /* iOS Safari 배경 스크롤 잠금 */
+    scrollY = window.scrollY;
+    document.body.style.top = `-${scrollY}px`;
+    document.body.classList.add('modal-open');
   }
 
   function closeModal() {
     modal.classList.remove('open');
     playerWrap.innerHTML = '';
-    document.body.style.overflow = 'auto';
+
+    /* iOS Safari 스크롤 위치 복원 */
+    document.body.classList.remove('modal-open');
+    document.body.style.top = '';
+    window.scrollTo(0, scrollY);
+
     startRolling();
+  }
+
+  /* 모달 닫기 — 배경 클릭 or 버튼 */
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+  modalClose.addEventListener('click', closeModal);
+
+  /* ══════════════════════════════════
+     INTERSECTION OBSERVER (fade-up)
+     — 동적 생성 요소를 포함하기 위해
+       MutationObserver로 새 .fade-up 감지
+  ══════════════════════════════════ */
+  const fadeObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        fadeObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+
+  function observeFadeUp() {
+    document.querySelectorAll('.fade-up:not(.visible)').forEach(el => fadeObserver.observe(el));
+  }
+
+  /* DOM 변화 감지 — 동적 생성된 stat-badge 등 즉시 등록 */
+  const mutationObserver = new MutationObserver(() => observeFadeUp());
+  mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+  /* ══════════════════════════════════
+     KEYBOARD
+  ══════════════════════════════════ */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape')     closeModal();
+    if (e.key === 'ArrowLeft')  slideMove(-1);
+    if (e.key === 'ArrowRight') slideMove(1);
+  });
+
+  /* ══════════════════════════════════
+     CONTACT
+  ══════════════════════════════════ */
+  function initContact() {
+    document.getElementById('emailLink').textContent = CONTACT_DATA.email;
+    document.getElementById('emailLink').href = `mailto:${CONTACT_DATA.email}`;
+    document.getElementById('phoneLink').textContent = CONTACT_DATA.phone;
+    document.getElementById('phoneLink').href = `tel:${CONTACT_DATA.phone}`;
+  }
+
+  /* ══════════════════════════════════
+     INIT
+  ══════════════════════════════════ */
+  function init() {
+    initContact();
+    renderStats();
+    renderFeatured();
+    renderDots();
+    renderFilters();
+    renderGrid('전체');
+    startRolling();
+    /* 초기 정적 fade-up 요소 등록 */
+    requestAnimationFrame(observeFadeUp);
   }
 
   init();
