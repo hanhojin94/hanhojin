@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Hojin Han — AI Film & Creative Video Portfolio">
+<meta name="description" content="Hojin Han AI Film & Creative Video Portfolio">
 <title>Hojin Han | AI Film & Creative Portfolio</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 
@@ -12,8 +12,8 @@
 :root {
   --bg:#080808;
   --panel:#141414;
-  --sub:#777;
   --text:#f1f1f1;
+  --sub:#777;
   --line:#292929;
   --gold:#c8a96e;
   --gold2:#e8c99e;
@@ -21,8 +21,8 @@
 [data-theme="light"] {
   --bg:#f5f5f0;
   --panel:#fff;
-  --sub:#777;
   --text:#111;
+  --sub:#777;
   --line:#ddd;
   --gold:#a07840;
   --gold2:#c8a96e;
@@ -38,173 +38,342 @@ body {
 }
 button {font:inherit;cursor:pointer}
 .wrap {max-width:1440px;margin:auto;padding:0 32px}
-header {text-align:center;padding:96px 0 60px}
+
+header {text-align:center;padding:95px 0 60px}
 .line {
-  display:block;margin:0 auto 28px;
-  width:1px;height:60px;
+  display:block;width:1px;height:60px;margin:0 auto 28px;
   background:linear-gradient(transparent,var(--gold));
 }
 .eyebrow {
-  font-size:11px;letter-spacing:.32em;
-  color:var(--gold);font-weight:700;
+  font-size:11px;
+  letter-spacing:.32em;
+  color:var(--gold);
+  font-weight:700;
 }
 h1 {
   font-size:clamp(45px,6vw,74px);
-  margin:16px 0 14px;font-weight:800;line-height:1.1;
+  margin:16px 0 14px;
+  font-weight:800;
+  line-height:1.1;
   background:linear-gradient(115deg,var(--text),var(--gold),var(--text));
-  background-clip:text;color:transparent;
+  background-clip:text;
+  color:transparent;
 }
 .subtitle {color:var(--sub);font-size:14px;letter-spacing:.1em}
 .intro {
-  color:var(--sub);font-size:14px;line-height:1.9;
-  margin:24px auto 0;max-width:620px;
+  color:var(--sub);
+  font-size:14px;
+  line-height:1.9;
+  margin:24px auto 0;
+  max-width:640px;
 }
-.stats {display:flex;gap:14px;justify-content:center;margin:30px 0;flex-wrap:wrap}
+.stats {
+  display:flex;gap:14px;justify-content:center;
+  margin:30px 0 0;flex-wrap:wrap;
+}
 .stat {
-  min-width:116px;border:1px solid var(--line);
-  background:var(--panel);padding:16px 22px;border-radius:12px;
+  min-width:116px;
+  border:1px solid var(--line);
+  background:var(--panel);
+  padding:16px 22px;
+  border-radius:12px;
 }
 .stat strong {display:block;font-size:27px;color:var(--gold)}
 .stat small {font-size:10px;letter-spacing:.14em;color:var(--sub)}
 .theme {
   position:fixed;right:24px;top:24px;z-index:50;
-  border:1px solid var(--line);background:var(--panel);
-  color:var(--gold);border-radius:50%;
-  width:46px;height:46px;font-size:20px;
+  border:1px solid var(--line);
+  background:var(--panel);color:var(--gold);
+  border-radius:50%;width:46px;height:46px;font-size:20px;
 }
+
+/* FEATURED SLIDER */
 .featured {position:relative;margin:48px 0 80px}
-.viewport {overflow:hidden;border:1px solid var(--line);border-radius:18px}
-.slides {display:flex;transition:transform .65s cubic-bezier(.2,.8,.2,1)}
+.viewport {
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:18px;
+  touch-action:pan-y;
+}
+.slides {
+  display:flex;
+  transition:transform .65s cubic-bezier(.2,.8,.2,1);
+}
 .slide {
-  flex:0 0 100%;aspect-ratio:16/7;
-  position:relative;cursor:pointer;background:#111;overflow:hidden;
+  flex:0 0 100%;
+  aspect-ratio:16/7;
+  position:relative;
+  cursor:pointer;
+  background:#111;
+  overflow:hidden;
 }
 .slide img {
-  width:100%;height:100%;object-fit:cover;
-  opacity:.55;transition:transform .5s;
+  width:100%;height:100%;
+  object-fit:cover;opacity:.55;
+  transition:transform .5s;
 }
 .slide:hover img {transform:scale(1.035)}
 .overlay {
   position:absolute;inset:0;
   padding:clamp(22px,4vw,48px);
-  display:flex;justify-content:end;
-  align-items:flex-start;flex-direction:column;gap:12px;
-  background:linear-gradient(transparent 15%,rgba(0,0,0,.8) 100%);
-  color:white;pointer-events:none;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-end;
+  gap:12px;
+  background:linear-gradient(transparent 15%,rgba(0,0,0,.85));
+  color:white;
+  pointer-events:none;
 }
 .pill {
-  border:1px solid #8b744c;border-radius:22px;
-  padding:6px 12px;color:var(--gold2);
+  border:1px solid #8b744c;
+  border-radius:22px;
+  padding:6px 12px;
+  color:var(--gold2);
   font-size:11px;font-weight:700;
 }
-.overlay h2 {font-size:clamp(20px,3vw,34px);line-height:1.25;margin:0;max-width:900px}
+.overlay h2 {
+  font-size:clamp(20px,3vw,34px);
+  line-height:1.25;
+  margin:0;max-width:900px;
+}
 .overlay p {font-size:13px;color:#aaa;margin:0}
 .arr {
-  position:absolute;top:50%;transform:translateY(-50%);
-  height:46px;width:46px;border:1px solid #555;
-  border-radius:50%;color:white;background:#0009;z-index:2;
+  position:absolute;top:50%;
+  transform:translateY(-50%);
+  height:46px;width:46px;
+  border:1px solid #555;
+  border-radius:50%;
+  color:white;background:#0009;z-index:2;
 }
 .arr.prev {left:15px}
 .arr.next {right:15px}
-.dots {display:flex;justify-content:center;gap:8px;margin-top:20px}
+.dots {
+  display:flex;justify-content:center;
+  gap:8px;margin-top:20px;
+}
 .dot {
-  height:6px;width:7px;background:var(--line);
+  height:6px;width:7px;
+  background:var(--line);
   border:0;border-radius:10px;padding:0;
 }
 .dot.on {background:var(--gold);width:28px}
-.section {display:flex;align-items:center;gap:18px;margin-bottom:28px}
-.section b {color:var(--sub);font-size:13px;letter-spacing:.2em}
-.section:after {content:"";height:1px;background:var(--line);flex:1}
-.filters {display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px}
-.filter {
-  border:1px solid var(--line);background:transparent;
-  color:var(--sub);padding:9px 18px;
-  border-radius:6px;font-weight:700;
+
+/* WORKS */
+.section {
+  display:flex;align-items:center;
+  gap:18px;margin-bottom:28px;
 }
+.section b {
+  color:var(--sub);
+  font-size:13px;
+  letter-spacing:.2em;
+  white-space:nowrap;
+}
+.section:after {
+  content:"";height:1px;
+  background:var(--line);flex:1;
+}
+.filters {
+  display:flex;gap:8px;
+  flex-wrap:wrap;margin-bottom:40px;
+}
+.filter {
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--sub);
+  padding:9px 18px;
+  border-radius:6px;
+  font-weight:700;
+  transition:.2s;
+}
+.filter:hover {color:var(--text);border-color:var(--gold)}
 .filter.on {
   background:linear-gradient(120deg,var(--gold),var(--gold2));
   color:#18120a;border-color:transparent;
 }
-.grid {columns:4;column-gap:16px}
-.card {
-  display:inline-block;width:100%;margin:0 0 16px;
-  background:var(--panel);border:1px solid var(--line);
-  border-radius:12px;overflow:hidden;cursor:pointer;
-  break-inside:avoid;transition:transform .25s,border-color .25s;
+
+/* 핵심: 세로 Masonry가 아닌 가로 GRID */
+.grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:16px;
+  align-items:stretch;
 }
-.card:hover {transform:translateY(-5px);border-color:var(--gold)}
-.thumb {aspect-ratio:16/9;position:relative;background:#080808;overflow:hidden}
-.thumb img {width:100%;height:100%;object-fit:cover;opacity:.82;transition:transform .3s}
+.card {
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  min-width:0;
+  margin:0;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:12px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+}
+.card:hover {
+  transform:translateY(-5px);
+  border-color:var(--gold);
+  box-shadow:0 15px 35px #0005;
+}
+.thumb {
+  aspect-ratio:16/9;
+  position:relative;
+  background:#080808;
+  overflow:hidden;
+}
+.thumb img {
+  width:100%;height:100%;
+  object-fit:cover;
+  opacity:.85;
+  transition:transform .3s;
+}
 .card:hover img {transform:scale(1.05)}
 .play {
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  border:1px solid #ffffffaa;background:#0008;border-radius:50%;
-  width:46px;height:46px;display:grid;place-items:center;
-  color:white;opacity:0;transition:opacity .2s;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  border:1px solid #ffffffaa;
+  background:#0008;
+  border-radius:50%;
+  width:46px;height:46px;
+  display:grid;place-items:center;
+  color:white;opacity:0;
+  transition:opacity .2s;
 }
 .card:hover .play {opacity:1}
-.info {padding:16px}
+.info {
+  padding:16px;
+  flex:1;
+  display:flex;
+  flex-direction:column;
+}
 .meta {
-  display:flex;justify-content:space-between;
-  gap:8px;align-items:center;margin-bottom:8px;
-  font-size:11px;color:var(--sub);
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:center;
+  margin-bottom:8px;
+  font-size:11px;
+  color:var(--sub);
 }
 .cat {
   background:rgba(200,169,110,.13);
-  color:var(--gold);padding:5px 9px;
-  border-radius:4px;font-weight:800;
+  color:var(--gold);
+  padding:5px 9px;
+  border-radius:4px;
+  font-weight:800;
 }
-.info h3 {font-size:14px;line-height:1.5;margin:0}
+.info h3 {
+  font-size:14px;
+  line-height:1.5;
+  margin:0;
+  overflow-wrap:anywhere;
+}
+
+/* FOOTER */
 footer {
-  text-align:center;border-top:1px solid var(--line);
-  padding:65px 16px;margin-top:100px;background:var(--panel);
+  text-align:center;
+  border-top:1px solid var(--line);
+  padding:65px 16px;
+  margin-top:100px;
+  background:var(--panel);
 }
 footer h2 {font-size:12px;letter-spacing:.25em;color:var(--sub)}
-.contacts {display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin:32px 0 60px}
+.contacts {
+  display:flex;gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin:32px 0 60px;
+}
 .contact {
-  border:1px solid var(--line);padding:18px 26px;
-  border-radius:12px;text-align:left;min-width:230px;
+  border:1px solid var(--line);
+  padding:18px 26px;
+  border-radius:12px;
+  text-align:left;
+  min-width:230px;
 }
 .contact small {color:var(--gold);display:block;margin-bottom:9px}
 .contact a {color:var(--text);text-decoration:none}
 .copyright {color:var(--sub);font-size:11px}
+
+/* VIDEO MODAL */
 .modal {
-  position:fixed;inset:0;background:#000e;z-index:100;
-  display:none;justify-content:center;align-items:center;
-  padding:22px;backdrop-filter:blur(12px);
+  position:fixed;inset:0;
+  background:#000e;z-index:100;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  padding:22px;
+  backdrop-filter:blur(12px);
 }
 .modal.open {display:flex}
 .dialog {
-  display:flex;width:min(1200px,100%);max-height:92vh;
-  overflow:auto;background:var(--panel);
-  border:1px solid var(--line);border-radius:18px;position:relative;
+  display:flex;
+  width:min(1200px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:18px;
+  position:relative;
 }
-.video {flex:1;min-width:0;background:black;aspect-ratio:16/9}
+.video {
+  flex:1;min-width:0;
+  background:black;
+  aspect-ratio:16/9;
+}
 .video iframe {width:100%;height:100%;border:0}
-.detail {width:325px;flex-shrink:0;padding:32px;line-height:1.65;overflow:auto}
+.detail {
+  width:325px;
+  flex-shrink:0;
+  padding:32px;
+  line-height:1.65;
+  overflow:auto;
+}
 .detail h2 {font-size:21px;line-height:1.35;margin:0 0 20px}
-.detail dl {display:grid;grid-template-columns:66px 1fr;gap:10px;font-size:13px}
+.detail dl {
+  display:grid;
+  grid-template-columns:66px 1fr;
+  gap:10px;font-size:13px;
+}
 .detail dt {color:var(--sub)}
 .detail dd {margin:0}
 .description {
-  white-space:pre-wrap;color:var(--sub);font-size:13px;
-  background:var(--bg);padding:15px;
-  border:1px solid var(--line);border-radius:10px;
+  white-space:pre-wrap;
+  color:var(--sub);
+  font-size:13px;
+  background:var(--bg);
+  padding:15px;
+  border:1px solid var(--line);
+  border-radius:10px;
 }
 .close {
   position:absolute;top:13px;right:13px;
-  background:#000b;border:1px solid #444;color:#fff;
-  border-radius:50%;height:34px;width:34px;z-index:5;
+  background:#000b;
+  border:1px solid #444;
+  color:#fff;
+  border-radius:50%;
+  height:34px;width:34px;z-index:5;
 }
-.youtube {display:inline-block;color:var(--gold);margin-top:12px;text-decoration:none;font-size:12px}
+.youtube {
+  display:inline-block;
+  color:var(--gold);
+  margin-top:12px;
+  text-decoration:none;
+  font-size:12px;
+}
+
+/* RESPONSIVE */
 @media(max-width:1100px) {
-  .grid {columns:3}
+  .grid {grid-template-columns:repeat(3,minmax(0,1fr))}
   .dialog {flex-direction:column}
   .video {width:100%;flex:none}
   .detail {width:100%}
 }
 @media(max-width:750px) {
-  .grid {columns:2}
+  .grid {grid-template-columns:repeat(2,minmax(0,1fr))}
   .wrap {padding:0 16px}
   header {padding:65px 0 45px}
   .slide {aspect-ratio:16/10}
@@ -214,18 +383,17 @@ footer h2 {font-size:12px;letter-spacing:.25em;color:var(--sub)}
   .theme {right:15px;top:15px}
 }
 @media(max-width:480px) {
-  .grid {columns:1}
+  .grid {grid-template-columns:1fr}
   .slide {aspect-ratio:4/3}
   .overlay h2 {font-size:19px}
   .stats {gap:8px}
   .stat {min-width:100px;padding:12px 14px}
   .filters {margin-bottom:26px}
-  .filter {padding:8px 13px}
 }
 </style>
 </head>
-<body>
 
+<body>
 <button id="theme" class="theme" aria-label="테마 변경">☾</button>
 
 <div class="wrap">
@@ -236,7 +404,7 @@ footer h2 {font-size:12px;letter-spacing:.25em;color:var(--sub)}
     <div class="subtitle">AI Film Director · Creative PD · Videographer & Editor</div>
     <p class="intro">
       생성형 AI 시네마틱 영상과 광고부터 브랜드 필름, 홍보·교육·숏폼까지.<br>
-      기획부터 연출, 편집까지 시각적 스토리텔링을 만드는 영상 크리에이터입니다.
+      기획부터 연출, 촬영과 편집까지 시각적 스토리텔링을 만드는 영상 크리에이터입니다.
     </p>
     <div id="stats" class="stats"></div>
   </header>
@@ -279,534 +447,300 @@ footer h2 {font-size:12px;letter-spacing:.25em;color:var(--sub)}
 </div>
 
 <script>
-const VIDEO_DATA = [
-  {
-    title: "[2026 충북 AI광고제 장려상] 한 획의 충북 : 기록이 머문 곳, 미래가 시작되는 곳",
-    category: "AI",
-    youtubeId: "QTHgk4lcfUE",
-    isFeatured: true,
-    client: "2026 충북 AI광고제",
-    type: "AI 광고 · 장려상 수상작",
-    role: "기획 · 제작 · 편집",
-    year: "2026",
-    desc: "🏆 2026 충북 AI광고제 | 장려상 수상작\n\n작품명: 한 획의 충북 : 기록이 머문 곳, 미래가 시작되는 곳\n기록의 가치를 담아 충북의 미래를 조명한 생성형 AI 기반 시네마틱 홍보 영상입니다."
-  },
-  {
-    title: "늙지 마… 도착하기 전까지 | SF 재난영화〈붕괴선〉티저",
-    category: "AI",
-    youtubeId: "K87hqRcFpJc",
-    isFeatured: true,
-    client: "SF 재난영화 〈붕괴선〉",
-    type: "AI 시네마틱 영화 · 티저",
-    role: "기획 · 연출 · 제작 · 편집",
-    year: "2026",
-    desc: "“멈추지 마. 아직… 시간이 우릴 쫓고 있으니까.”\n\n[BytePlus x AI-Kive] Seedance 2.5 AI 시리즈 제작지원 공모전 지원작."
-  },
-  {
-    title: "가족을 위한 조용한 선택 ｜ #CURAIR #큐레어 #숏폼공모전 #에어큐레이션 #대우컴프레셔 #공기정화살균시스템",
-    category: "AI",
-    youtubeId: "hpddF1XNMVo",
-    isFeatured: true,
-    client: "CURAIR · 큐레어",
-    type: "AI 브랜드 광고 · 숏폼",
-    role: "기획 · 제작 · 편집",
-    year: "2026",
-    desc: "가족을 위한 조용한 선택, CURAIR.\n\n큐레어 AI 광고·홍보 숏폼 공모전 지원영상.",
-    tags: ["숏츠"],
-    format: "shorts"
-  },
-  {
-    title: "수심 200m가 준 깨끗함, 고성 해양심층수 전시관 #해양심층수 #2026해양심층수AI공모전",
-    category: "AI",
-    youtubeId: "zMsLevmI8NU",
-    isFeatured: true,
-    client: "고성 해양심층수 전시관",
-    type: "AI 전시·브랜드 홍보",
-    role: "기획 · 제작 · 편집",
-    year: "2026",
-    desc: "본 영상은 해양심층수 전시관을 직접 방문한 체험자의 시선을 통해\n자연의 순수한 자원이 전문 연구를 거쳐 일상 속 건강한 수분,\n프리미엄 소금, 그리고 에스테틱 스킨케어로 거듭나는 과정을 감각적으로 담아냈습니다.\n\n고성 해양심층수 공모전 지원영상."
-  },
-  {
-    title:"AI를 이용한 화장품 광고 1번",
-    category:"숏츠",tags:["AI"],youtubeId:"vk83o_Vs_PI",
-    isFeatured:false,client:"AI 제작",type:"브랜드 홍보",
-    role:"기획, 편집",year:"2026",
-    desc:"AI를 통한 영상 생성 및 편집으로 만든 화장품 광고 영상입니다."
-  },
-  {
-    title:"남자 코성형 전후... 이건 차이가 너무 큰데?",
-    category:"숏츠",youtubeId:"GMogKVrDXeg",
-    isFeatured:false,client:"워나성형외과",type:"숏츠",
-    role:"편집",year:"2026",
-    desc:"부분모델을 통한 원내 전후 비교 숏츠입니다."
-  },
-  {
-    title:"ETF 투자하면 망한다? ETF로 10억까지 벌어본 제가 전부 말씀드리겠습니다",
-    category:"업체",youtubeId:"L5sv2WWIRpA",
-    isFeatured:true,client:"성사꾼",type:"업체",
-    role:"편집",year:"2026",
-    desc:"외주 프리랜서 작업영상입니다."
-  },
-  {
-    title:"이런 눈이라면 주목! 겹주름, 소세지눈, 비대칭, 풀림까지!",
-    category:"숏츠",youtubeId:"cd8Mjonw3g4",
-    isFeatured:false,client:"워나성형외과",type:"숏츠",
-    role:"기획, 촬영, 편집",year:"2026",
-    desc:"눈 재수술 고민Top4\n*롱폼에서 파생시킨 쇼츠입니다."
-  },
-  {
-    title:"첫 코수술 Before & After",
-    category:"숏츠",youtubeId:"RKEsvS2JHGU",
-    isFeatured:false,client:"워나성형외과",type:"숏츠",
-    role:"편집",year:"2026",
-    desc:"부분모델을 통한 원내 전후 비교 숏츠입니다."
-  },
-  {
-    title:"코끝이 휘어있다면? 수술 난이도가 달라집니다｜실제 케이스 리뷰",
-    category:"숏츠",youtubeId:"IoBRrnLDtPg",
-    isFeatured:false,client:"워나성형외과",type:"숏츠",
-    role:"편집",year:"2026",
-    desc:"부분모델을 통한 원내 전후 비교 숏츠입니다."
-  },
-  {
-    title:"자려하게 풀페이스 변화✨ 눈·코 동시수술 Before & After",
-    category:"숏츠",youtubeId:"N87WCWBiT_Q",
-    isFeatured:false,client:"워나성형외과",type:"숏츠",
-    role:"편집",year:"2026",
-    desc:"전체모델을 통한 원내 전후 비교 숏츠입니다."
-  },
-  {
-    title:"이번이 마지막 코재수술이었으면 좋겠어요",
-    category:"업체",youtubeId:"G1DVQwlWEMM",
-    isFeatured:false,client:"워나성형외과",type:"업체",
-    role:"기획, 촬영, 편집",year:"2026",
-    desc:"코재수술 상담만 N번째...왜 만족스럽지 않았을까요?"
-  },
-  {
-    title:"99%가 착각하는 것! 예쁜 코가 정답은 아닙니다 (케이스 리뷰)",
-    category:"업체",youtubeId:"ayLM3bqWJM0",
-    isFeatured:false,client:"워나성형외과",type:"업체",
-    role:"기획, 촬영, 편집",year:"2026",
-    desc:"내 얼굴에는 어떤 코가 어울릴지 고민 중인 시청자 정보 전달 영상입니다."
-  },
-  {
-    title:"눈 재수술 고민 TOP4｜실제 케이스 리뷰 공개",
-    category:"업체",youtubeId:"jmagWkoudp8",
-    isFeatured:true,client:"워나성형외과",type:"업체",
-    role:"기획, 촬영, 편집",year:"2026",
-    desc:"눈 재수술 상담에서 가장 많이 나오는 고민 TOP4를 실제 사례 리뷰"
-  },
-  {
-    title:"모어덴 슈링크 교육",
-    category:"업체",youtubeId:"PLLcU5TKyhk",
-    isFeatured:false,client:"모어덴",type:"홍보/교육",
-    role:"편집",year:"2026",
-    desc:"슈링크 장비 판매 및 교육용 영상입니다."
-  },
-  {
-    title:"모어덴 CO2 교육",
-    category:"업체",youtubeId:"_lE44JabOj8",
-    isFeatured:false,client:"모어덴",type:"교육 영상",
-    role:"촬영, 편집",year:"2026",
-    desc:"CO2 장비 판매 및 교육용 영상입니다."
-  },
-  {
-    title:"Hermann Ryff",
-    category:"업체",youtubeId:"O9sO5O14ldQ",
-    isFeatured:false,client:"HermannRyff",type:"브랜드 홍보",
-    role:"편집",year:"2025",
-    desc:"허먼리프 임플란트 브랜드 홍보 메인 영상입니다."
-  },
-  {
-    title:"모어덴 슈링크 도입 안내",
-    category:"업체",youtubeId:"SQV3rMFF_eU",
-    isFeatured:false,client:"모어덴",type:"홍보 영상",
-    role:"촬영, 편집",year:"2025",
-    desc:"슈링크 장비 도입 및 홍보용 인터뷰 영상입니다."
-  },
-  {
-    title:"Hermann Ryff Interview 01",
-    category:"인터뷰",youtubeId:"SiVtVSILzL0",
-    isFeatured:false,client:"HermannRyff",type:"인터뷰",
-    role:"촬영, 편집",year:"2025",
-    desc:"허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다."
-  },
-  {
-    title:"Hermann Ryff Interview 02",
-    category:"인터뷰",youtubeId:"I2RcrXlZcuU",
-    isFeatured:false,client:"HermannRyff",type:"인터뷰",
-    role:"촬영, 편집",year:"2025",
-    desc:"허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다."
-  },
-  {
-    title:"Hermann Ryff Interview 03",
-    category:"인터뷰",youtubeId:"R8Bux68TlXM",
-    isFeatured:false,client:"HermannRyff",type:"인터뷰",
-    role:"촬영, 편집",year:"2025",
-    desc:"허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다."
-  },
-  {
-    title:"치크루팅 브랜드 필름",
-    category:"업체",youtubeId:"cRYHJSqr_o8",
-    isFeatured:false,client:"치크루팅",type:"브랜드 홍보",
-    role:"편집",year:"2025",
-    desc:"치크루팅 홍보를 목적으로 제작된 브랜드 영상입니다."
-  },
-  {
-    title:"Hermann Ryff Interview 04",
-    category:"인터뷰",youtubeId:"TN8oldMMsPA",
-    isFeatured:false,client:"HermannRyff",type:"인터뷰",
-    role:"촬영, 편집",year:"2025",
-    desc:"허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다."
-  },
-  {
-    title:"Hermann Ryff Interview 05",
-    category:"인터뷰",youtubeId:"v2TFR2DHtKQ",
-    isFeatured:false,client:"HermannRyff",type:"인터뷰",
-    role:"촬영, 편집",year:"2025",
-    desc:"허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다."
-  },
-  {
-    title:"Hermann Ryff Interview 06",
-    category:"인터뷰",youtubeId:"3I0j9fbUhuE",
-    isFeatured:false,client:"HermannRyff",type:"인터뷰",
-    role:"촬영, 편집",year:"2025",
-    desc:"허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다."
-  },
-  {
-    title:"울킨 LDM 장비 전략",
-    category:"숏츠",youtubeId:"yPQjbhKatN0",
-    isFeatured:false,client:"모어덴",type:"교육",
-    role:"촬영, 편집",year:"2026",
-    desc:"부종, 멍 관리까지, 프리미엄 치과 울킨 LDM 전략\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"더마샤인 vs 네오젝 뭐가 더 좋을까?",
-    category:"숏츠",youtubeId:"-KjKsXKPtj0",
-    isFeatured:false,client:"모어덴",type:"후기",
-    role:"촬영, 편집",year:"2026",
-    desc:"더마샤인 vs 네오젝 : 스킨부스터 인젝터의 선택은?\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"모어덴 & 와이즈에이아이",
-    category:"강의",youtubeId:"SbvWdPP9N6I",
-    isFeatured:false,client:"모어덴 & 와이즈에이아이",
-    type:"강의",role:"촬영, 편집",year:"2025",
-    desc:"와이즈에이아이 업체 강의 촬영 (Q&A 형식)."
-  },
-  {
-    title:"모어덴 슈링크 인터뷰",
-    category:"인터뷰",youtubeId:"H_5DUEh5aKE",
-    isFeatured:false,client:"모어덴",type:"강의/인터뷰",
-    role:"촬영, 편집",year:"2025",
-    desc:"슈링크 장비 판매 및 교육용 인터뷰 영상입니다."
-  },
-  {
-    title:"TEE FIT 기공소",
-    category:"업체",youtubeId:"w4htZQ1lHGA",
-    isFeatured:false,client:"TEE FIT 기공소",type:"홍보",
-    role:"촬영, 편집",year:"2024",
-    desc:"TEE FIT 기공소 차별점 강조 홍보 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"서울나란이치과(수원점)",
-    category:"업체",youtubeId:"LmqRrfBQzao",
-    isFeatured:false,client:"서울나란이치과(수원점)",
-    type:"홍보",role:"촬영, 편집",year:"2025",
-    desc:"병원 내 송출용 홍보 영상입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"강의 편집 외주",
-    category:"강의",youtubeId:"MRkGmSYgw9Q",
-    isFeatured:false,client:"강의 외주",type:"강의",
-    role:"컷 편집, 자막, 효과",year:"2025",
-    desc:"강의 편집 전문 작업물입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"인터뷰 편집 외주",
-    category:"인터뷰",youtubeId:"Dra_T7NbCJQ",
-    isFeatured:false,client:"인터뷰 외주",type:"인터뷰",
-    role:"컷 편집, 자막, BGM",year:"2025",
-    desc:"인터뷰 편집 전문 작업물입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"송년회 영상 외주",
-    category:"기타",youtubeId:"dk7pR7ozvxo",
-    isFeatured:false,client:"송년회 영상 외주",type:"기타",
-    role:"모션 그래픽, 자막",year:"2025",
-    desc:"모션 그래픽 위주 송년회 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"동창회 영상 외주",
-    category:"기타",youtubeId:"uQI5G1DVPmc",
-    isFeatured:false,client:"동창회 영상 외주",type:"기타",
-    role:"편집",year:"2025",
-    desc:"동창회 기록 편집 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"레이 CBCT 라이브쇼",
-    category:"업체",youtubeId:"5dOtB7LoDEE",
-    isFeatured:false,client:"모어덴",type:"홍보, 이벤트",
-    role:"편집",year:"2025",
-    desc:"레이 CBCT 라이브 런칭쇼 이벤트 영상 (디자인 참여X)."
-  },
-  {
-    title:"이어혜다 강의 런칭",
-    category:"숏츠",youtubeId:"7p5c2eSt85s",
-    isFeatured:false,client:"모어덴",type:"숏츠",
-    role:"편집",year:"2025",
-    desc:"디자인 파일 기반 숏츠 편집 (디자인X)."
-  },
-  {
-    title:"모어덴 슈링크 송출 영상",
-    category:"인터뷰",youtubeId:"ngQp2wi9Tcw",
-    isFeatured:false,client:"모어덴",type:"인터뷰",
-    role:"촬영, 편집",year:"2026",
-    desc:"인터뷰 + 디자인 파일 기반 인터뷰(디자인X)."
-  },
-  {
-    title:"치크루팅 강의_Part 1",
-    category:"강의",youtubeId:"C7hcdhxmyRA",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2025",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 2",
-    category:"강의",youtubeId:"dFrE_6BdXLY",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2025",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 3",
-    category:"강의",youtubeId:"aCjbeI5y6JE",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2025",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 4",
-    category:"강의",youtubeId:"8_y18vbTi5A",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2025",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 5",
-    category:"강의",youtubeId:"t9-tfdDqEOk",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2026",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 6",
-    category:"강의",youtubeId:"kGybyWT3Fy4",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2026",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 7",
-    category:"강의",youtubeId:"oClQWRZEuL8",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2026",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 8",
-    category:"강의",youtubeId:"I2CIB7ewtgI",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2026",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 9",
-    category:"강의",youtubeId:"vSwJrXH2Cl4",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2026",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"치크루팅 강의_Part 10",
-    category:"강의",youtubeId:"uC6af89vfUQ",
-    isFeatured:false,client:"치크루팅",type:"강의",
-    role:"편집",year:"2026",
-    desc:"치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X"
-  },
-  {
-    title:"피맥당 신메뉴 홍보",
-    category:"숏츠",youtubeId:"MvoQ5Ghltfs",
-    isFeatured:false,client:"숏츠 외주",type:"숏츠",
-    role:"편집",year:"2025",
-    desc:"피맥당 메뉴 홍보 숏츠 외주 작업.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"쇼핑몰 숏츠 01",
-    category:"숏츠",youtubeId:"HPq72BhdLy8",
-    isFeatured:false,client:"숏츠 외주",type:"홍보",
-    role:"편집",year:"2025",
-    desc:"쇼핑몰 홍보용 숏츠 편집 작업물.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"쇼핑몰 숏츠 02",
-    category:"숏츠",youtubeId:"Xli3TiZEWIk",
-    isFeatured:false,client:"숏츠 외주",type:"홍보",
-    role:"편집",year:"2025",
-    desc:"쇼핑몰 홍보용 숏츠 편집 작업물.\n*클라이언트의 요청에 맞춰 편집하였습니다."
-  },
-  {
-    title:"치크루팅 숏츠",
-    category:"숏츠",youtubeId:"5jHhqVQzef0",
-    isFeatured:false,client:"치크루팅",type:"숏츠",
-    role:"편집",year:"2025",
-    desc:"치크루팅 서비스 홍보 숏츠."
-  },
-  {
-    title:"점빵치과 세미나 현장",
-    category:"숏츠",youtubeId:"VoJXkx8Sw3Y",
-    isFeatured:false,client:"모어덴",type:"숏츠",
-    role:"촬영, 편집",year:"2025",
-    desc:"세미나 현장 스케치 촬영 및 편집."
-  },
-  {
-    title:"점빵치과 세미나 홍보",
-    category:"숏츠",youtubeId:"C2bq-XT6xKI",
-    isFeatured:false,client:"모어덴",type:"숏츠",
-    role:"편집",year:"2025",
-    desc:"세미나 사전 홍보용 숏츠 편집."
-  },
-  {
-    title:"Dental Suturing",
-    category:"숏츠",youtubeId:"jfrsRwJNnAM",
-    isFeatured:false,client:"덴탈빈",type:"숏츠",
-    role:"촬영, 편집",year:"2024",
-    desc:"Modified Horizontal Mattress 교육 영상."
-  },
-  {
-    title:"Dental Floss Guide",
-    category:"숏츠",youtubeId:"ChaQnICI4AE",
-    isFeatured:false,client:"덴탈빈",type:"숏츠",
-    role:"촬영, 편집",year:"2024",
-    desc:"How to use dental floss 교육 영상."
-  },
-  {
-    title:"공모전",
-    category:"기타",youtubeId:"KDhyH9Hbmpg",
-    isFeatured:false,client:"백두대간 산림생태탐방",
-    type:"공모전",role:"촬영, 편집",year:"2022",
-    desc:"2022 청소년 백두대간 산림생태탐방 공모전에서 산림청장상을 받았습니다. 총 3인이 촬영, 편집에 참여하였습니다."
-  }
+/*
+  영상 데이터 형식
+  YouTube ID § 카테고리 § 연도 § 제목 § 클라이언트 § 유형 § 역할 § 설명
+
+  모든 기존 영상과 신규 AI 영상 포함
+*/
+const RAW_DATA = String.raw`
+QTHgk4lcfUE§AI§2026§[2026 충북 AI광고제 장려상] 한 획의 충북 : 기록이 머문 곳, 미래가 시작되는 곳§2026 충북 AI광고제§AI 광고 · 장려상 수상작§기획 · 제작 · 편집§🏆 2026 충북 AI광고제 | 장려상 수상작\n\n작품명: 한 획의 충북 : 기록이 머문 곳, 미래가 시작되는 곳\n기록의 가치를 담아 충북의 미래를 조명한 생성형 AI 기반 시네마틱 홍보 영상입니다.
+K87hqRcFpJc§AI§2026§늙지 마… 도착하기 전까지 | SF 재난영화〈붕괴선〉티저§SF 재난영화 〈붕괴선〉§AI 시네마틱 영화 · 티저§기획 · 연출 · 제작 · 편집§“멈추지 마. 아직… 시간이 우릴 쫓고 있으니까.”\n\n[BytePlus x AI-Kive] Seedance 2.5 AI 시리즈 제작지원 공모전 지원작.
+hpddF1XNMVo§AI§2026§가족을 위한 조용한 선택 ｜ #CURAIR #큐레어 #숏폼공모전 #에어큐레이션 #대우컴프레셔 #공기정화살균시스템§CURAIR · 큐레어§AI 브랜드 광고 · 숏폼§기획 · 제작 · 편집§가족을 위한 조용한 선택, CURAIR.\n\n큐레어 AI 광고·홍보 숏폼 공모전 지원영상.
+zMsLevmI8NU§AI§2026§수심 200m가 준 깨끗함, 고성 해양심층수 전시관 #해양심층수 #2026해양심층수AI공모전§고성 해양심층수 전시관§AI 전시·브랜드 홍보§기획 · 제작 · 편집§본 영상은 해양심층수 전시관을 직접 방문한 체험자의 시선을 통해\n자연의 순수한 자원이 전문 연구를 거쳐 일상 속 건강한 수분,\n프리미엄 소금, 그리고 에스테틱 스킨케어로 거듭나는 과정을 감각적으로 담아냈습니다.\n\n고성 해양심층수 공모전 지원영상.
+vk83o_Vs_PI§숏츠§2026§AI를 이용한 화장품 광고 1번§AI 제작§브랜드 홍보§기획, 편집§AI를 통한 영상 생성 및 편집으로 만든 화장품 광고 영상입니다.
+GMogKVrDXeg§숏츠§2026§남자 코성형 전후... 이건 차이가 너무 큰데?§워나성형외과§숏츠§편집§부분모델을 통한 원내 전후 비교 숏츠입니다.
+L5sv2WWIRpA§업체§2026§ETF 투자하면 망한다? ETF로 10억까지 벌어본 제가 전부 말씀드리겠습니다§성사꾼§업체§편집§외주 프리랜서 작업영상입니다.
+cd8Mjonw3g4§숏츠§2026§이런 눈이라면 주목! 겹주름, 소세지눈, 비대칭, 풀림까지!§워나성형외과§숏츠§기획, 촬영, 편집§눈 재수술 고민Top4 \n*롱폼에서 파생시킨 쇼츠입니다.
+RKEsvS2JHGU§숏츠§2026§첫 코수술 Before & After§워나성형외과§숏츠§편집§부분모델을 통한 원내 전후 비교 숏츠입니다.
+IoBRrnLDtPg§숏츠§2026§코끝이 휘어있다면? 수술 난이도가 달라집니다｜실제 케이스 리뷰§워나성형외과§숏츠§편집§부분모델을 통한 원내 전후 비교 숏츠입니다.
+N87WCWBiT_Q§숏츠§2026§자려하게 풀페이스 변화✨ 눈·코 동시수술 Before & After§워나성형외과§숏츠§편집§전체모델을 통한 원내 전후 비교 숏츠입니다.
+G1DVQwlWEMM§업체§2026§이번이 마지막 코재수술이었으면 좋겠어요§워나성형외과§업체§기획, 촬영, 편집§코재수술 상담만 N번째...왜 만족스럽지 않았을까요?
+ayLM3bqWJM0§업체§2026§99%가 착각하는 것! 예쁜 코가 정답은 아닙니다 (케이스 리뷰)§워나성형외과§업체§기획, 촬영, 편집§내 얼굴에는 어떤 코가 어울릴지 고민 중인 시청자 정보 전달 영상입니다.
+jmagWkoudp8§업체§2026§눈 재수술 고민 TOP4｜실제 케이스 리뷰 공개§워나성형외과§업체§기획, 촬영, 편집§눈 재수술 상담에서 가장 많이 나오는 고민 TOP4를 실제 사례 리뷰
+PLLcU5TKyhk§업체§2026§모어덴 슈링크 교육§모어덴§홍보/교육§편집§슈링크 장비 판매 및 교육용 영상입니다.
+_lE44JabOj8§업체§2026§모어덴 CO2 교육§모어덴§교육 영상§촬영, 편집§CO2 장비 판매 및 교육용 영상입니다.
+O9sO5O14ldQ§업체§2025§Hermann Ryff§HermannRyff§브랜드 홍보§편집§허먼리프 임플란트 브랜드 홍보 메인 영상입니다.
+SQV3rMFF_eU§업체§2025§모어덴 슈링크 도입 안내§모어덴§홍보 영상§촬영, 편집§슈링크 장비 도입 및 홍보용 인터뷰 영상입니다.
+SiVtVSILzL0§인터뷰§2025§Hermann Ryff Interview 01§HermannRyff§인터뷰§촬영, 편집§허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다.
+I2RcrXlZcuU§인터뷰§2025§Hermann Ryff Interview 02§HermannRyff§인터뷰§촬영, 편집§허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다.
+R8Bux68TlXM§인터뷰§2025§Hermann Ryff Interview 03§HermannRyff§인터뷰§촬영, 편집§허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다.
+cRYHJSqr_o8§업체§2025§치크루팅 브랜드 필름§치크루팅§브랜드 홍보§편집§치크루팅 홍보를 목적으로 제작된 브랜드 영상입니다.
+TN8oldMMsPA§인터뷰§2025§Hermann Ryff Interview 04§HermannRyff§인터뷰§촬영, 편집§허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다.
+v2TFR2DHtKQ§인터뷰§2025§Hermann Ryff Interview 05§HermannRyff§인터뷰§촬영, 편집§허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다.
+3I0j9fbUhuE§인터뷰§2025§Hermann Ryff Interview 06§HermannRyff§인터뷰§촬영, 편집§허먼리프 임플란트 브랜드 홍보 인터뷰 영상입니다.
+yPQjbhKatN0§숏츠§2026§울킨 LDM 장비 전략§모어덴§교육§촬영, 편집§부종, 멍 관리까지, 프리미엄 치과 울킨 LDM 전략 \n*클라이언트의 요청에 맞춰 편집하였습니다.
+-KjKsXKPtj0§숏츠§2026§더마샤인 vs 네오젝 뭐가 더 좋을까?§모어덴§후기§촬영, 편집§더마샤인 vs 네오젝 : 스킨부스터 인젝터의 선택은? \n*클라이언트의 요청에 맞춰 편집하였습니다.
+SbvWdPP9N6I§강의§2025§모어덴 & 와이즈에이아이§모어덴 & 와이즈에이아이§강의§촬영, 편집§와이즈에이아이 업체 강의 촬영 (Q&A 형식).
+H_5DUEh5aKE§인터뷰§2025§모어덴 슈링크 인터뷰§모어덴§강의/인터뷰§촬영, 편집§슈링크 장비 판매 및 교육용 인터뷰 영상입니다.
+w4htZQ1lHGA§업체§2024§TEE FIT 기공소§TEE FIT 기공소§홍보§촬영, 편집§TEE FIT 기공소 차별점 강조 홍보 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+LmqRrfBQzao§업체§2025§서울나란이치과(수원점)§서울나란이치과(수원점)§홍보§촬영, 편집§병원 내 송출용 홍보 영상입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+MRkGmSYgw9Q§강의§2025§강의 편집 외주§강의 외주§강의§컷 편집, 자막, 효과§강의 편집 전문 작업물입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+Dra_T7NbCJQ§인터뷰§2025§인터뷰 편집 외주§인터뷰 외주§인터뷰§컷 편집, 자막, BGM§인터뷰 편집 전문 작업물입니다.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+dk7pR7ozvxo§기타§2025§송년회 영상 외주§송년회 영상 외주§기타§모션 그래픽, 자막§모션 그래픽 위주 송년회 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+uQI5G1DVPmc§기타§2025§동창회 영상 외주§동창회 영상 외주§기타§편집§동창회 기록 편집 영상.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+5dOtB7LoDEE§업체§2025§레이 CBCT 라이브쇼§모어덴§홍보, 이벤트§편집§레이 CBCT 라이브 런칭쇼 이벤트 영상 (디자인 참여X).
+7p5c2eSt85s§숏츠§2025§이어혜다 강의 런칭§모어덴§숏츠§편집§디자인 파일 기반 숏츠 편집 (디자인X).
+ngQp2wi9Tcw§인터뷰§2026§모어덴 슈링크 송출 영상§모어덴§인터뷰§촬영, 편집§인터뷰 + 디자인 파일 기반 인터뷰(디자인X).
+C7hcdhxmyRA§강의§2025§치크루팅 강의_Part 1§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+dFrE_6BdXLY§강의§2025§치크루팅 강의_Part 2§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+aCjbeI5y6JE§강의§2025§치크루팅 강의_Part 3§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+8_y18vbTi5A§강의§2025§치크루팅 강의_Part 4§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+t9-tfdDqEOk§강의§2026§치크루팅 강의_Part 5§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+kGybyWT3Fy4§강의§2026§치크루팅 강의_Part 6§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+oClQWRZEuL8§강의§2026§치크루팅 강의_Part 7§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+I2CIB7ewtgI§강의§2026§치크루팅 강의_Part 8§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+vSwJrXH2Cl4§강의§2026§치크루팅 강의_Part 9§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+uC6af89vfUQ§강의§2026§치크루팅 강의_Part 10§치크루팅§강의§편집§치크루팅 치위생사 구인구직 사이트 홍보 강의입니다. 촬영X
+MvoQ5Ghltfs§숏츠§2025§피맥당 신메뉴 홍보§숏츠 외주§숏츠§편집§피맥당 메뉴 홍보 숏츠 외주 작업.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+HPq72BhdLy8§숏츠§2025§쇼핑몰 숏츠 01§숏츠 외주§홍보§편집§쇼핑몰 홍보용 숏츠 편집 작업물.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+Xli3TiZEWIk§숏츠§2025§쇼핑몰 숏츠 02§숏츠 외주§홍보§편집§쇼핑몰 홍보용 숏츠 편집 작업물.\n*클라이언트의 요청에 맞춰 편집하였습니다.
+5jHhqVQzef0§숏츠§2025§치크루팅 숏츠§치크루팅§숏츠§편집§치크루팅 서비스 홍보 숏츠.
+VoJXkx8Sw3Y§숏츠§2025§점빵치과 세미나 현장§모어덴§숏츠§촬영, 편집§세미나 현장 스케치 촬영 및 편집.
+C2bq-XT6xKI§숏츠§2025§점빵치과 세미나 홍보§모어덴§숏츠§편집§세미나 사전 홍보용 숏츠 편집.
+jfrsRwJNnAM§숏츠§2024§Dental Suturing§덴탈빈§숏츠§촬영, 편집§Modified Horizontal Mattress 교육 영상.
+ChaQnICI4AE§숏츠§2024§Dental Floss Guide§덴탈빈§숏츠§촬영, 편집§How to use dental floss 교육 영상.
+KDhyH9Hbmpg§기타§2022§공모전§백두대간 산림생태탐방§공모전§촬영, 편집§2022 청소년 백두대간 산림생태탐방 공모전에서 산림청장상을 받았습니다. 총 3인이 촬영, 편집에 참여하였습니다.
+`;
+
+/* 데이터 변환 */
+const VIDEO_DATA = RAW_DATA.trim().split('\n').map(line => {
+  const parts = line.split('§');
+  const [youtubeId,category,year,title,client,type,role,...description] = parts;
+  return {
+    youtubeId,
+    category,
+    year,
+    title,
+    client,
+    type,
+    role,
+    desc:description.join('§').replace(/\\n/g,'\n'),
+    tags:youtubeId === 'vk83o_Vs_PI' ? ['AI'] :
+         youtubeId === 'hpddF1XNMVo' ? ['숏츠'] : []
+  };
+});
+
+/* Featured 기존 영상 유지 */
+const FEATURED_IDS = [
+  'QTHgk4lcfUE',
+  'K87hqRcFpJc',
+  'hpddF1XNMVo',
+  'zMsLevmI8NU',
+  'vk83o_Vs_PI',
+  'GMogKVrDXeg',
+  'L5sv2WWIRpA',
+  'RKEsvS2JHGU',
+  'jmagWkoudp8'
 ];
 
-const CATEGORIES = ["전체","AI","업체","인터뷰","강의","기타","숏츠"];
+/*
+  작품 정렬 기준
+  1~4: AI 영상 4개
+  5: ETF
+  이후: 롱폼 → 기타 → 숏츠
+*/
+const PRIORITY_IDS = [
+  'QTHgk4lcfUE',
+  'K87hqRcFpJc',
+  'hpddF1XNMVo',
+  'zMsLevmI8NU',
+  'L5sv2WWIRpA'
+];
+
+function getPriority(video) {
+  const fixed = PRIORITY_IDS.indexOf(video.youtubeId);
+  if (fixed !== -1) return fixed;
+
+  if (['업체','인터뷰','강의'].includes(video.category)) {
+    return 10;
+  }
+
+  if (video.category === '기타') return 20;
+
+  return 30;
+}
+
+const ORDERED_VIDEOS = [...VIDEO_DATA].sort(
+  (a,b) => getPriority(a) - getPriority(b)
+);
+
+const FEATURED = FEATURED_IDS
+  .map(id => VIDEO_DATA.find(v => v.youtubeId === id))
+  .filter(Boolean);
+
+const CATEGORIES = ['전체','AI','업체','인터뷰','강의','기타','숏츠'];
+
 const $ = id => document.getElementById(id);
-const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+
+const esc = s => String(s ?? '').replace(/[&<>"']/g,c => ({
+  '&':'&amp;',
+  '<':'&lt;',
+  '>':'&gt;',
+  '"':'&quot;',
+  "'":'&#39;'
 }[c]));
-const thumb = id => `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
-const featured = VIDEO_DATA.filter(v => v.isFeatured);
+
+const thumb = id =>
+  `https://i.ytimg.com/vi/${encodeURIComponent(id)}/hqdefault.jpg`;
 
 let slide = 0;
 let timer;
-let selected = "전체";
+let selected = '전체';
 
-function stats() {
+/* STATS */
+function renderStats() {
   const clients = new Set(VIDEO_DATA.map(v => v.client));
-  $("stats").innerHTML = `
-    <div class="stat"><strong>${VIDEO_DATA.length}</strong><small>WORKS</small></div>
-    <div class="stat"><strong>${clients.size}</strong><small>CLIENTS</small></div>
-    <div class="stat"><strong>2022–</strong><small>SINCE</small></div>
+  $('stats').innerHTML = `
+    <div class="stat">
+      <strong>${VIDEO_DATA.length}</strong>
+      <small>WORKS</small>
+    </div>
+    <div class="stat">
+      <strong>${clients.size}</strong>
+      <small>CLIENTS</small>
+    </div>
+    <div class="stat">
+      <strong>2022–</strong>
+      <small>SINCE</small>
+    </div>
   `;
 }
 
+/* FEATURED */
 function renderFeatured() {
-  $("slides").innerHTML = featured.map(v => `
+  $('slides').innerHTML = FEATURED.map(v => `
     <article class="slide" data-id="${esc(v.youtubeId)}" tabindex="0">
-      <img loading="eager" src="${thumb(v.youtubeId)}" alt="${esc(v.title)}">
+      <img src="${thumb(v.youtubeId)}" alt="${esc(v.title)}">
       <div class="overlay">
         <span class="pill">${esc(v.type)}</span>
         <h2>${esc(v.title)}</h2>
         <p>${esc(v.client)} · ${esc(v.year)}</p>
       </div>
     </article>
-  `).join("");
+  `).join('');
 
-  $("dots").innerHTML = featured.map((_,i) => `
-    <button class="dot ${i === 0 ? "on" : ""}" data-slide="${i}"
-      aria-label="${i+1}번째 영상"></button>
-  `).join("");
+  $('dots').innerHTML = FEATURED.map((_,i) => `
+    <button
+      class="dot ${i===0 ? 'on' : ''}"
+      data-slide="${i}"
+      aria-label="${i+1}번째 영상">
+    </button>
+  `).join('');
 
   go(0);
 }
 
 function go(i) {
-  if (!featured.length) return;
-  slide = (i + featured.length) % featured.length;
-  $("slides").style.transform = `translateX(-${slide * 100}%)`;
-  document.querySelectorAll(".dot").forEach((b,j) => {
-    b.classList.toggle("on", j === slide);
+  if (!FEATURED.length) return;
+
+  slide = (i + FEATURED.length) % FEATURED.length;
+  $('slides').style.transform = `translateX(-${slide*100}%)`;
+
+  document.querySelectorAll('.dot').forEach((b,j) => {
+    b.classList.toggle('on',j===slide);
   });
 }
 
-function stop() {
+function stopSlider() {
   clearInterval(timer);
 }
 
-function play() {
-  stop();
-  if (featured.length > 1) {
-    timer = setInterval(() => go(slide+1), 5000);
+function playSlider() {
+  stopSlider();
+  if (FEATURED.length > 1) {
+    timer = setInterval(() => go(slide+1),5000);
   }
 }
 
-$("prev").onclick = () => {go(slide-1);play()};
-$("next").onclick = () => {go(slide+1);play()};
-
-$("dots").onclick = e => {
-  const b = e.target.closest("[data-slide]");
-  if (b) {go(+b.dataset.slide);play()}
+$('prev').onclick = () => {
+  go(slide-1);
+  playSlider();
 };
 
-$("slides").onclick = e => {
-  const card = e.target.closest("[data-id]");
+$('next').onclick = () => {
+  go(slide+1);
+  playSlider();
+};
+
+$('dots').onclick = e => {
+  const b = e.target.closest('[data-slide]');
+  if (b) {
+    go(Number(b.dataset.slide));
+    playSlider();
+  }
+};
+
+$('slides').onclick = e => {
+  const card = e.target.closest('[data-id]');
   if (card) openVideo(card.dataset.id);
 };
 
 let touchX = 0;
+let ignoreSlideClick = false;
 
-$("viewport").addEventListener("touchstart", e => {
+$('viewport').addEventListener('touchstart', e => {
   touchX = e.touches[0].clientX;
 }, {passive:true});
 
-$("viewport").addEventListener("touchend", e => {
+$('viewport').addEventListener('touchend', e => {
   const dx = touchX - e.changedTouches[0].clientX;
+
   if (Math.abs(dx) > 45) {
+    ignoreSlideClick = true;
     go(slide + (dx > 0 ? 1 : -1));
-    play();
+    playSlider();
   }
 }, {passive:true});
 
+$('viewport').addEventListener('click',e => {
+  if (ignoreSlideClick) {
+    e.stopPropagation();
+    ignoreSlideClick = false;
+  }
+},true);
+
+$('viewport').addEventListener('mouseenter',stopSlider);
+$('viewport').addEventListener('mouseleave',playSlider);
+
+/* FILTERS */
 function renderFilters() {
-  $("filters").innerHTML = CATEGORIES.map(c => `
-    <button class="filter ${selected === c ? "on" : ""}"
-      data-cat="${esc(c)}">${esc(c)}</button>
-  `).join("");
+  $('filters').innerHTML = CATEGORIES.map(c => `
+    <button
+      class="filter ${selected===c ? 'on' : ''}"
+      data-cat="${esc(c)}">
+      ${esc(c)}
+    </button>
+  `).join('');
 }
 
+/* GRID: 가로 방향으로 순서 배치 */
 function renderGrid() {
-  const list = VIDEO_DATA.filter(v =>
-    selected === "전체" ||
+  const list = ORDERED_VIDEOS.filter(v =>
+    selected === '전체' ||
     v.category === selected ||
-    (v.tags || []).includes(selected)
+    v.tags.includes(selected)
   );
 
-  $("grid").innerHTML = list.map(v => `
+  $('grid').innerHTML = list.map(v => `
     <article class="card" data-id="${esc(v.youtubeId)}" tabindex="0">
       <div class="thumb">
-        <img loading="lazy" src="${thumb(v.youtubeId)}" alt="${esc(v.title)}">
+        <img loading="lazy"
+          src="${thumb(v.youtubeId)}"
+          alt="${esc(v.title)}">
         <span class="play">▶</span>
       </div>
+
       <div class="info">
         <div class="meta">
           <span class="cat">${esc(v.category)}</span>
@@ -815,37 +749,31 @@ function renderGrid() {
         <h3>${esc(v.title)}</h3>
       </div>
     </article>
-  `).join("");
+  `).join('');
 }
 
-$("filters").onclick = e => {
-  const b = e.target.closest("[data-cat]");
+$('filters').onclick = e => {
+  const b = e.target.closest('[data-cat]');
   if (!b) return;
+
   selected = b.dataset.cat;
   renderFilters();
   renderGrid();
 };
 
-$("grid").onclick = e => {
-  const c = e.target.closest("[data-id]");
-  if (c) openVideo(c.dataset.id);
+$('grid').onclick = e => {
+  const card = e.target.closest('[data-id]');
+  if (card) openVideo(card.dataset.id);
 };
 
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") closeVideo();
-  const card = document.activeElement;
-  if (e.key === "Enter" && card?.dataset?.id) {
-    openVideo(card.dataset.id);
-  }
-});
-
+/* VIDEO MODAL */
 function openVideo(id) {
   const v = VIDEO_DATA.find(v => v.youtubeId === id);
   if (!v) return;
 
-  stop();
+  stopSlider();
 
-  $("video").innerHTML = `
+  $('video').innerHTML = `
     <iframe
       src="https://www.youtube.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0"
       title="${esc(v.title)}"
@@ -854,60 +782,83 @@ function openVideo(id) {
     </iframe>
   `;
 
-  $("detail").innerHTML = `
+  $('detail').innerHTML = `
     <h2>${esc(v.title)}</h2>
+
     <dl>
       <dt>PROJECT</dt><dd>${esc(v.client)}</dd>
       <dt>TYPE</dt><dd>${esc(v.type)}</dd>
       <dt>ROLE</dt><dd>${esc(v.role)}</dd>
       <dt>YEAR</dt><dd>${esc(v.year)}</dd>
     </dl>
+
     <p class="description">${esc(v.desc)}</p>
+
     <a class="youtube"
-      href="https://www.youtube.com/watch?v=${encodeURIComponent(id)}"
-      target="_blank" rel="noopener noreferrer">
-      YouTube에서 보기 ↗
+       href="https://www.youtube.com/watch?v=${encodeURIComponent(id)}"
+       target="_blank"
+       rel="noopener noreferrer">
+       YouTube에서 보기 ↗
     </a>
   `;
 
-  $("modal").classList.add("open");
-  document.body.style.overflow = "hidden";
+  $('modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
 
 function closeVideo() {
-  $("modal").classList.remove("open");
-  $("video").innerHTML = "";
-  document.body.style.overflow = "";
-  play();
+  if (!$('modal').classList.contains('open')) return;
+
+  $('modal').classList.remove('open');
+  $('video').innerHTML = '';
+  document.body.style.overflow = '';
+  playSlider();
 }
 
-$("close").onclick = closeVideo;
+$('close').onclick = closeVideo;
 
-$("modal").onclick = e => {
-  if (e.target === $("modal")) closeVideo();
+$('modal').onclick = e => {
+  if (e.target === $('modal')) closeVideo();
 };
 
-function theme(t) {
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeVideo();
+
+  if (e.key === 'Enter') {
+    const card = document.activeElement;
+    if (card?.dataset?.id) openVideo(card.dataset.id);
+  }
+});
+
+/* DARK / LIGHT THEME */
+function setTheme(t) {
   document.documentElement.dataset.theme = t;
-  $("theme").textContent = t === "dark" ? "☾" : "☀";
-  try {localStorage.setItem("hojin-theme",t)} catch(e) {}
+  $('theme').textContent = t === 'dark' ? '☾' : '☀';
+
+  try {
+    localStorage.setItem('hojin-theme',t);
+  } catch(e) {}
 }
 
-$("theme").onclick = () => {
-  theme(document.documentElement.dataset.theme === "dark" ? "light" : "dark");
+$('theme').onclick = () => {
+  setTheme(
+    document.documentElement.dataset.theme === 'dark'
+      ? 'light' : 'dark'
+  );
 };
 
 try {
-  theme(localStorage.getItem("hojin-theme") || "dark");
+  setTheme(localStorage.getItem('hojin-theme') || 'dark');
 } catch(e) {
-  theme("dark");
+  setTheme('dark');
 }
 
-stats();
+/* INITIALIZE */
+renderStats();
 renderFeatured();
 renderFilters();
 renderGrid();
-play();
+playSlider();
 </script>
 </body>
 </html>
